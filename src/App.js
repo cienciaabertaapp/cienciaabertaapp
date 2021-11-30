@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState,useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
@@ -6,21 +6,48 @@ import DefaultComponent from './components/DefaultComponent';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateUsuarioComponent from './components/CreateUsuarioComponent';
+import CreateCategoriaComponent from './components/CreateCategoriaComponent';
 import LoginUsuarioComponent from './components/LoginUsuarioComponent';
 import AnswerSearchComponent from "./components/AnswerSearchComponent";
-//import ViewEmployeeComponent from './components/ViewEmployeeComponent';
+import ListUserComponent from "./components/ListUserComponent";
+import ListCategoriaComponent from "./components/ListCategoriaComponent";
+import UpdateUsuarioComponent from "./components/UpdateUsuarioComponent";
+import ViewUsuarioComponent from "./components/ViewUsuarioComponent";
+import NotFound from "./components/NotFound";
+import {history} from "./history";
+import { isAuthenticated } from "./auth";
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props =>
+        isAuthenticated() ? (
+            <Component {...props} />
+        ) : (
+            // eslint-disable-next-line react/jsx-no-undef
+            <Redirect to={{ pathname: "/user_login", state: { from: props.location } }} />
+        )
+    }
+    />
+);
+
 
 function App() {
+
   return (
     <div>
-        <Router>
+        <Router history={history}>
               <HeaderComponent />
                 <div className="container">
                     <Switch>
                           <Route path = "/" exact component = {DefaultComponent}></Route>
-                          <Route path = "/login" component = {LoginUsuarioComponent}></Route>
+                          <Route path = "/user_login" component = {LoginUsuarioComponent}></Route>
                           <Route path = "/usuario" component = {CreateUsuarioComponent}></Route>
+                        <Route path = "/usuario_edit/:id" component = {UpdateUsuarioComponent}></Route>
+                        <Route path = "/usuario_view/:id" component = {ViewUsuarioComponent}></Route>
                           <Route path = "/pesquisa" component = {AnswerSearchComponent}></Route>
+                        <Route path = "/usuario_list" component = {ListUserComponent}></Route>
+                        <Route path = "/categoria" component = {CreateCategoriaComponent}></Route>
+                        <Route path = "/categoria_list" component = {ListCategoriaComponent}></Route>
+                          <Route component={NotFound}></Route>
                           {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
                           <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}
                     </Switch>

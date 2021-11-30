@@ -1,41 +1,88 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
-import { useForm } from "react-hook-form"; 
+import {ErrorMessage,Formik,Form,Field} from "formik"
+import * as yup from 'yup'
+import * as cors from 'cors'
+import axios from "axios";
 
 class LoginUsuarioComponent extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    }
-    handleEmailUsuarioChange = (event) => {
-        this.setState ({emailUsuario: event.target.value});
-    }
 
-    handleSenhaUsuarioChange = (event) => {
-        this.setState ({senhaUsuario: event.target.value});
-    }
 
-    saveUsuario = (e) => {
-        e.preventDefault();
-        let usuario = {
-             nomeUsuario: this.state.nomeUsuario,
-             emailUsuario: this.state.emailUsuario,
-             instituicaoUsuario: this.state.instituicaoUsuario,
-             ocupacaoUsuario: this.state.ocupacaoUsuario,
-             senhaUsuario: this.state.senhaUsuario,
-             permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario};
-        console.log('usuario => ' + JSON.stringify(usuario));
-
-        CienciaAbertaService.createUsuario(usuario).then(res =>{
-            this.props.history.push('/pesquisa');
-        });
-    }
     cancel(){
         this.props.history.push('/');
     }
-    render() {
+
+
+    handleSubmit = (values) => {
+       /* let express = require('express');
+        let cors = require('cors');
+        let app = express();
+         preventDefault
+        app.use(cors);
+        console.log((values));
+        cors.caller(console.log(CienciaAbertaService.loginUsuario(values)));
+        console.log((values));
+        /*app.listen(8084, function () {
+            console.log('CORS-enabled web server listening on port 80');
+        })*/
+
+        CienciaAbertaService.loginUsuario(JSON.stringify(values))
+            .then(resp => {
+                console.log(resp)
+            })
+
+
+     /*   axios.post('http://localhost:8084/user_login',{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin' : 'http://localhost:3000/*'
+            },
+            body: { key: values }
+        }).then(resp => {
+            console.log(resp)
+        })*/
+
+
+    }
+
+    render(){
+
+     /*  const handleSubmit = values => {
+          // CienciaAbertaService.createUsuario(usuario).
+          // axios.post('http://localhost:8084/login',values)
+           //    .then(resp => console.log(resp))
+
+
+        /*   axios.post('http://localhost:8084/login', JSON.stringify( values), {
+               mode: 'no-cors',
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json',
+                   'Access-Control-Allow-Origin': 'http://localhost:3000/',
+               },
+               withCredentials: false,
+               credentials: 'same-origin',
+           }).then(resp => {
+               console.log(resp)
+           })
+
+           CienciaAbertaService.loginUsuario(values)
+               .then(resp => {
+               console.log(resp)
+           });
+
+          // axios.post('/login',values)
+          //
+
+       }
+*/
+
+        const  validations = yup.object().shape({
+            emailUsuario: yup.string().email().required(),
+            senhaUsuario: yup.string().min(3).required()
+        })
         return (
             <div>
                 <br></br>
@@ -44,25 +91,27 @@ class LoginUsuarioComponent extends Component {
                             <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Acessar minha área</h3>
 
                                 <div className = "card-body">
-                                    <form>
+                                   <Formik initialValues={{}} onSubmit={this.handleSubmit} validationSchema={validations}>
+                                    <Form className="Form">
 
-                                        <div className = "form-group">
+                                        <div className = "Form-group">
                                             <label> Email: </label>
-                                            <input placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control"
-                                                   value={this.state.emailUsuario} onChange={this.handleEmailUsuarioChange}/>
+                                            <Field  placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control"/>
+                                            <ErrorMessage componet="span" name="emailUsuario" className="Form-Field"/>
                                         </div>
 
-                                        <div className = "form-group">
-                                            <label> Senha: </label>
-                                            <input type="password" placeholder="Senha" id="senhaUsuario" name="senhaUsuario" className="form-control"
-                                                   value={this.state.senhaUsuario} onChange={this.handleSenhaUsuarioChange} />
 
+                                        <div className = "Form-group">
+                                            <label> Senha: </label>
+                                            <Field placeholder="Email" id="senhaUsuario" name="senhaUsuario" className="form-control"/>
+                                            <ErrorMessage componet="span" name="senhaUsuario" className="Form-Field"/>
                                             <br></br>
                                         </div>
 
-                                        <button className="btn btn-success" onClick={this.saveUsuario}>Salvar</button>
+                                        <button onClick={"submit"} className="btn btn-success" >Entrar</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
+                                    </Form>
+                                   </Formik>
                                 </div>
                             </div>
                         </div>

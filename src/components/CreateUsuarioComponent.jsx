@@ -43,7 +43,7 @@ class CreateUsuarioComponent extends Component {
         });
     }
     cancel(){
-        this.props.history.push('/');
+        this.props.history.push('/usuario_list');
     }
     render() {
         return (

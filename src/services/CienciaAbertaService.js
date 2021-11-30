@@ -4,25 +4,51 @@ const CIENCIAABERTA_API_BASE_URL = "http://localhost:8084/";
 
 class CienciaAbertaService {
 
-    getUsuarios(){
-        return axios.get(CIENCIAABERTA_API_BASE_URL);
+    createUsuario(usuario){
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'usuario', usuario);
     }
-
-   createUsuario(usuario){
-        return axios.post(CIENCIAABERTA_API_BASE_URL, usuario);
+    buscaUsuario(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_busca/'+ id);
     }
-/*
-    getEmployeeById(employeeId){
-        return axios.get(EMPLOYEE_API_BASE_URL + '/' + employeeId);
+    listUsuarios(){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_list');
     }
-
-    updateEmployee(employee, employeeId){
-        return axios.put(EMPLOYEE_API_BASE_URL + '/' + employeeId, employee);
+    deleteUsuario(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_delete',id);
     }
-
-    deleteEmployee(employeeId){
-        return axios.delete(EMPLOYEE_API_BASE_URL + '/' + employeeId);
+    updateUsuario(id,usuario){
+        return axios.put(CIENCIAABERTA_API_BASE_URL+ 'usuario_update/'+ id,usuario);
+    }
+  /*  viewUsuario(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_view/'+ id);
     }*/
+
+     loginUsuario(values) {
+         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'user_login', values);
+     }
+    createCategoria(values) {
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'categoria', values);
+    }
+    listCategoria() {
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'categoria_list');
+    }
+
+    deleteCategoria(id) {
+        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'categoria_delete',id);
+    }
+
+     /*    getEmployeeById(employeeId){
+             return axios.get(EMPLOYEE_API_BASE_URL + '/' + employeeId);
+         }
+
+         updateEmployee(employee, employeeId){
+             return axios.put(EMPLOYEE_API_BASE_URL + '/' + employeeId, employee);
+         }
+
+         deleteEmployee(employeeId){
+             return axios.delete(EMPLOYEE_API_BASE_URL + '/' + employeeId);
+         }*/
+
 }
 
 export default new CienciaAbertaService()
