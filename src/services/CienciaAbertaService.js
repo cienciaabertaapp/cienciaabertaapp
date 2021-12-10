@@ -29,12 +29,27 @@ class CienciaAbertaService {
     createCategoria(values) {
         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'categoria', values);
     }
+    buscaCategoria(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'categoria_busca/'+ id);
+    }
+
+    updateCategoria(id,categoria){
+        return axios.put(CIENCIAABERTA_API_BASE_URL+ 'categoria_update/'+ id,categoria);
+    }
     listCategoria() {
         return axios.get(CIENCIAABERTA_API_BASE_URL+ 'categoria_list');
     }
 
     deleteCategoria(id) {
         return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'categoria_delete',id);
+    }
+
+    createPergunta(values) {
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'perguntas', values);
+    }
+
+    listPerguntas(){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'perguntas_list');
     }
 
      /*    getEmployeeById(employeeId){

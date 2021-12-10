@@ -13,9 +13,13 @@ import ListUserComponent from "./components/ListUserComponent";
 import ListCategoriaComponent from "./components/ListCategoriaComponent";
 import UpdateUsuarioComponent from "./components/UpdateUsuarioComponent";
 import ViewUsuarioComponent from "./components/ViewUsuarioComponent";
+import UpdateCategoriaComponent from "./components/UpdateCategoriaComponent";
+import ListPerguntasComponent from "./components/ListPerguntasComponent";
 import NotFound from "./components/NotFound";
 import {history} from "./history";
 import { isAuthenticated } from "./auth";
+import CreatePerguntaComponent from "./components/CreatePerguntaComponent";
+import CreatePerguntaAlternativasComponent from "./components/CreatePerguntaAlternativasComponent";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props =>
@@ -43,10 +47,13 @@ function App() {
                           <Route path = "/usuario" component = {CreateUsuarioComponent}></Route>
                         <Route path = "/usuario_edit/:id" component = {UpdateUsuarioComponent}></Route>
                         <Route path = "/usuario_view/:id" component = {ViewUsuarioComponent}></Route>
-                          <Route path = "/pesquisa" component = {AnswerSearchComponent}></Route>
                         <Route path = "/usuario_list" component = {ListUserComponent}></Route>
                         <Route path = "/categoria" component = {CreateCategoriaComponent}></Route>
+                        <Route path = "/categoria_edit/:id" component = {UpdateCategoriaComponent}></Route>
                         <Route path = "/categoria_list" component = {ListCategoriaComponent}></Route>
+                        <Route path = "/pesquisa" component = {AnswerSearchComponent}></Route>
+                        <Route path = "/perguntas" component = {CreatePerguntaComponent}></Route>
+                        <Route path = "/perguntas_list" component = {ListPerguntasComponent}></Route>
                           <Route component={NotFound}></Route>
                           {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
                           <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}
