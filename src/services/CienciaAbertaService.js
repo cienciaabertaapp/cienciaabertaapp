@@ -51,6 +51,12 @@ class CienciaAbertaService {
     listPerguntas(){
         return axios.get(CIENCIAABERTA_API_BASE_URL+ 'perguntas_list');
     }
+    buscaPergunta(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'pergunta_busca/'+ id);
+    }
+    updatePergunta(id,pergunta){
+        return axios.put(CIENCIAABERTA_API_BASE_URL+ 'pergunta_update/'+ id,pergunta);
+    }
 
      /*    getEmployeeById(employeeId){
              return axios.get(EMPLOYEE_API_BASE_URL + '/' + employeeId);

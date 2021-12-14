@@ -19,7 +19,8 @@ import NotFound from "./components/NotFound";
 import {history} from "./history";
 import { isAuthenticated } from "./auth";
 import CreatePerguntaComponent from "./components/CreatePerguntaComponent";
-import CreatePerguntaAlternativasComponent from "./components/CreatePerguntaAlternativasComponent";
+import ViewPerguntaComponent from "./components/ViewPerguntaComponent";
+import UpdatePerguntaComponent from "./components/UpdatePerguntaComponent";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props =>
@@ -54,6 +55,8 @@ function App() {
                         <Route path = "/pesquisa" component = {AnswerSearchComponent}></Route>
                         <Route path = "/perguntas" component = {CreatePerguntaComponent}></Route>
                         <Route path = "/perguntas_list" component = {ListPerguntasComponent}></Route>
+                        <Route path = "/pergunta_view/:id" component = {ViewPerguntaComponent}></Route>
+                        <Route path = "/pergunta_edit/:id" component = {UpdatePerguntaComponent}></Route>
                           <Route component={NotFound}></Route>
                           {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
                           <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}
