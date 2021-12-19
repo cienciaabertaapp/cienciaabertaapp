@@ -19,9 +19,6 @@ class CienciaAbertaService {
     updateUsuario(id,usuario){
         return axios.put(CIENCIAABERTA_API_BASE_URL+ 'usuario_update/'+ id,usuario);
     }
-  /*  viewUsuario(id){
-        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_view/'+ id);
-    }*/
 
      loginUsuario(values) {
          return axios.post(CIENCIAABERTA_API_BASE_URL+ 'user_login', values);
@@ -58,17 +55,30 @@ class CienciaAbertaService {
         return axios.put(CIENCIAABERTA_API_BASE_URL+ 'pergunta_update/'+ id,pergunta);
     }
 
-     /*    getEmployeeById(employeeId){
-             return axios.get(EMPLOYEE_API_BASE_URL + '/' + employeeId);
-         }
+    buscaPerguntasCategoria(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'perguntas_categoria?idCategoria='+id);
+    }
+    createResposta(respostas){
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'respostas', respostas);
+    }
+    createGrauMaturidade(values) {
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade', values);
+    }
+    buscaGrauMaturidade(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_busca/'+ id);
+    }
 
-         updateEmployee(employee, employeeId){
-             return axios.put(EMPLOYEE_API_BASE_URL + '/' + employeeId, employee);
-         }
+    updateGrauMaturidade(id,categoria){
+        return axios.put(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_update/'+ id,categoria);
+    }
+    listGrauMaturidade() {
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_list');
+    }
 
-         deleteEmployee(employeeId){
-             return axios.delete(EMPLOYEE_API_BASE_URL + '/' + employeeId);
-         }*/
+    deleteGrauMaturidade(id) {
+        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_delete',id);
+    }
+
 
 }
 

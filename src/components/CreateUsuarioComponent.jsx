@@ -36,10 +36,11 @@ class CreateUsuarioComponent extends Component {
              ocupacaoUsuario: this.state.ocupacaoUsuario,
              senhaUsuario: this.state.senhaUsuario,
              permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario};
-        console.log('usuario => ' + JSON.stringify(usuario));
+       // console.log('usuario => ' + JSON.stringify(usuario));
 
         CienciaAbertaService.createUsuario(usuario).then(res =>{
-            this.props.history.push('/pesquisa');
+            console.log(res.data.id);
+           this.props.history.push('/pesquisa/'+ res.data.id);
         });
     }
     cancel(){
@@ -51,7 +52,7 @@ class CreateUsuarioComponent extends Component {
                 <br></br>
                    <div className = "container">
                         <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Criar Usuário</h3>
+                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Adicionar Usuário</h3>
 
                                 <div className = "card-body">
                                     <form>
@@ -90,11 +91,11 @@ class CreateUsuarioComponent extends Component {
                                             <label> Permissão para divulgação de dados: </label><br></br>
                                             <tbody><tr>
                                                 <td width="50%">
-                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuario"
+                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuarioTrue"
                                                            name="permissaoDivulgacaoDadosUsuario" value="true" onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange}/> SIM
                                                 </td>
                                                 <td width="50%">
-                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuario"
+                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuarioFalse"
                                                            name="permissaoDivulgacaoDadosUsuario" value="false" onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange}/> NÃO
                                                 </td>
                                             </tr></tbody>

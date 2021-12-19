@@ -21,6 +21,9 @@ import { isAuthenticated } from "./auth";
 import CreatePerguntaComponent from "./components/CreatePerguntaComponent";
 import ViewPerguntaComponent from "./components/ViewPerguntaComponent";
 import UpdatePerguntaComponent from "./components/UpdatePerguntaComponent";
+import CreateGrauMaturidadeComponent from "./components/CreateGrauMaturidadeComponent";
+import UpdateGrauMaturidadeComponent from "./components/UpdateGrauMaturidadeComponent";
+import ListGrauMaturidadeComponent from "./components/ListGrauMaturidadeComponent";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props =>
@@ -52,11 +55,14 @@ function App() {
                         <Route path = "/categoria" component = {CreateCategoriaComponent}></Route>
                         <Route path = "/categoria_edit/:id" component = {UpdateCategoriaComponent}></Route>
                         <Route path = "/categoria_list" component = {ListCategoriaComponent}></Route>
-                        <Route path = "/pesquisa" component = {AnswerSearchComponent}></Route>
+                        <Route path = "/pesquisa/:id" component = {AnswerSearchComponent}></Route>
                         <Route path = "/perguntas" component = {CreatePerguntaComponent}></Route>
                         <Route path = "/perguntas_list" component = {ListPerguntasComponent}></Route>
                         <Route path = "/pergunta_view/:id" component = {ViewPerguntaComponent}></Route>
                         <Route path = "/pergunta_edit/:id" component = {UpdatePerguntaComponent}></Route>
+                        <Route path = "/grau_maturidade" component = {CreateGrauMaturidadeComponent}></Route>
+                        <Route path = "/grau_maturidade_edit/:id" component = {UpdateGrauMaturidadeComponent}></Route>
+                        <Route path = "/grau_maturidade_list" component = {ListGrauMaturidadeComponent}></Route>
                           <Route component={NotFound}></Route>
                           {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
                           <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}
