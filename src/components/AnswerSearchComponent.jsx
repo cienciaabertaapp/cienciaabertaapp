@@ -1,6 +1,7 @@
 import React, { Component, useState, CheckBox } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
+import {Grid} from "@mui/material";
 
 class AnswerSearchComponent extends Component {
 
@@ -42,7 +43,7 @@ class AnswerSearchComponent extends Component {
     }
     proximoStep = (e,step) => {
         e.preventDefault();
-      //  console.log(step);
+        //  console.log(step);
         this.setState({stepAtual: step })
         this.setState({categoriaAtual: this.state.categorias[step].descricaoCategoriaPergunta});
         CienciaAbertaService.buscaPerguntasCategoria(this.state.categorias[step].id).then((res) => {
@@ -78,7 +79,7 @@ class AnswerSearchComponent extends Component {
                 "estado": 'true'
             });
         }
-     //   console.log(this.state.respostasAlternative);
+        //   console.log(this.state.respostasAlternative);
     }
 
 
@@ -103,7 +104,7 @@ class AnswerSearchComponent extends Component {
                 "resposta": e.target.value
             });
         }
-       // console.log(this.state.respostasAberta);
+        // console.log(this.state.respostasAberta);
     }
 
     onChangeTrueFalse = (e,idPergunta) => {
@@ -123,7 +124,7 @@ class AnswerSearchComponent extends Component {
                 "resposta": e.target.value
             });
         }
-     //   console.log(this.state.respostasTrueFalse);
+        //   console.log(this.state.respostasTrueFalse);
     }
 
     onChangeSelecao = (e,idPergunta,idAlternativa) => {
@@ -131,8 +132,8 @@ class AnswerSearchComponent extends Component {
         let inserirSelecao = true;
         this.state.respostas.map(res => {
             if ((res.idPergunta == idPergunta) && (res.idAlternativa == idAlternativa)){
-               // console.log(res.estado);
-               // console.log(!res.estado);
+                // console.log(res.estado);
+                // console.log(!res.estado);
                 res.estado =  !res.estado;
                 inserirSelecao = false;
                 return res
@@ -146,7 +147,7 @@ class AnswerSearchComponent extends Component {
                 "estado": "true"
             });
         }
-      //  console.log(this.state.respostasSelecao);
+        //  console.log(this.state.respostasSelecao);
     }
 
     salvaPesquisa = (e) => {
@@ -156,9 +157,9 @@ class AnswerSearchComponent extends Component {
             respostasUsuario: this.state.respostas
 
         };
-       // console.log('resposta => ' + JSON.stringify(respostasUsuario));
+        // console.log('resposta => ' + JSON.stringify(respostasUsuario));
 
-       CienciaAbertaService.createResposta(respostasUsuario).then(res =>{
+        CienciaAbertaService.createResposta(respostasUsuario).then(res =>{
             this.props.history.push('/');
         });
 
@@ -176,13 +177,15 @@ class AnswerSearchComponent extends Component {
         return (
             <div>
                 <br></br>
-                <div className = "form-floating">
-                    <div className = "row">
+                <Grid container container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center">
+                    <Grid item xs={10}>
                         <h1 className="text-center">Pesquisa - Ciência Aberta</h1>
 
                         <h3> {this.state.categoriaAtual}</h3>
-                        <div className = "card col-md-12 offset-md-0 offset-md-0">
-                            <div className = "card-body">
+                        <div >
                                 <form>
 
 
@@ -197,8 +200,8 @@ class AnswerSearchComponent extends Component {
                                                         <input type="radio"
                                                                value="true"
                                                                checked={(this.state?.respostas.filter(res => res.idPergunta == perguntas.id).map( sel => (sel.resposta)).toString()) == 'true' ?
-                                                                           "true"
-                                                                       : null }
+                                                                   "true"
+                                                                   : null }
                                                                name={perguntas.perguntaTipoPergunta + perguntas.id}
                                                                onChange={(e) => this.onChangeTrueFalse(e,perguntas.id)} /> Verdadeiro
                                                         <br></br>
@@ -283,11 +286,10 @@ class AnswerSearchComponent extends Component {
                                     <br></br><br></br><br></br>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft:"40%"}}>Cancelar</button>
                                 </form>
-                            </div>
                         </div>
-                    </div>
+                    </Grid>
 
-                </div>
+                </Grid>
             </div>
         )
     }

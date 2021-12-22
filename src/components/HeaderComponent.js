@@ -13,8 +13,8 @@ class HeaderComponent extends Component {
         return (
             <div>
                 <header>
-                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><a href="https://javaguides.net" className="navbar-brand">Ciência Aberta App</a></div>
+                    <nav className="navbar navbar-expand-md navbar-dark bg-dark text-light text-center">
+                    <div style={{ fontSize:"xx-large"}}>Ciência Aberta App</div>
                     </nav>
                 </header>
             </div>

@@ -1,123 +1,90 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useContext } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
-import {ErrorMessage,Formik,Form,Field} from "formik"
 import * as yup from 'yup'
 import * as cors from 'cors'
 import axios from "axios";
+import {Grid} from "@mui/material";
+import {login} from "../auth";
+import {Form} from "react-bootstrap";
+import api from "../api";
 
 class LoginUsuarioComponent extends Component {
 
+    constructor() {
+        super();
+      //  this.localStorage = StorageProvider;
+    }
+
+    state = {
+        emailUsuario:'',
+        senhaUsuario: '',
+        error: ""
+    };
 
 
     cancel(){
         this.props.history.push('/');
     }
 
+    handleSubmit = async e => {
 
-    handleSubmit = (values) => {
-       /* let express = require('express');
-        let cors = require('cors');
-        let app = express();
-         preventDefault
-        app.use(cors);
-        console.log((values));
-        cors.caller(console.log(CienciaAbertaService.loginUsuario(values)));
-        console.log((values));
-        /*app.listen(8084, function () {
-            console.log('CORS-enabled web server listening on port 80');
-        })*/
+       /* console.log('login => ' + JSON.stringify(values));
+        CienciaAbertaService.loginUsuario(values).then(res => {
+            this.props.history.push('/usuario_list');
+            console.log(res);
+        });*/
+        e.preventDefault();
+        const { emailUsuario, senhaUsuario } = this.state;
+        let parametros = {emailUsuario: emailUsuario, senhaUsuario: senhaUsuario};
+        let conversao =  new URLSearchParams(Object.entries(parametros)).toString();
 
-        CienciaAbertaService.loginUsuario(JSON.stringify(values))
-            .then(resp => {
-                console.log(resp)
-            })
+        try {
+         const response = await CienciaAbertaService.loginUsuario(conversao);
+         login(response.data.token);
+         this.props.history.push("/usuario_list");
 
-
-     /*   axios.post('http://localhost:8084/user_login',{
-            method:"POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin' : 'http://localhost:3000/*'
-            },
-            body: { key: values }
-        }).then(resp => {
-            console.log(resp)
-        })*/
-
+        }catch (err){
+            this.setState({
+                error:
+                    "Houve um problema com o login, verifique suas credenciais."
+            });
+        }
 
     }
 
     render(){
 
-     /*  const handleSubmit = values => {
-          // CienciaAbertaService.createUsuario(usuario).
-          // axios.post('http://localhost:8084/login',values)
-           //    .then(resp => console.log(resp))
-
-
-        /*   axios.post('http://localhost:8084/login', JSON.stringify( values), {
-               mode: 'no-cors',
-               headers: {
-                   'Accept': 'application/json',
-                   'Content-Type': 'application/json',
-                   'Access-Control-Allow-Origin': 'http://localhost:3000/',
-               },
-               withCredentials: false,
-               credentials: 'same-origin',
-           }).then(resp => {
-               console.log(resp)
-           })
-
-           CienciaAbertaService.loginUsuario(values)
-               .then(resp => {
-               console.log(resp)
-           });
-
-          // axios.post('/login',values)
-          //
-
-       }
-*/
-
-        const  validations = yup.object().shape({
-            emailUsuario: yup.string().email().required(),
-            senhaUsuario: yup.string().min(3).required()
-        })
         return (
-            <div>
+            <>
                 <br></br>
-                   <div className = "container">
-                        <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Acessar minha área</h3>
-
-                                <div className = "card-body">
-                                   <Formik initialValues={{}} onSubmit={this.handleSubmit} validationSchema={validations}>
-                                    <Form className="Form">
-
-                                        <div className = "Form-group">
+                <Grid container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center">
+                    <Grid item xs={6}>
+                        <h3 className="text-center">Acessar minha área</h3>
+                        {this.state.error && <p>{this.state.error}</p>}
+                                    <Form className="form" onSubmit={this.handleSubmit}>
+                                        <div  >
                                             <label> Email: </label>
-                                            <Field  placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control"/>
-                                            <ErrorMessage componet="span" name="emailUsuario" className="Form-Field"/>
+                                            <input type='email'  placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control" onChange={e => this.setState({ emailUsuario: e.target.value })} />
+
                                         </div>
 
-
-                                        <div className = "Form-group">
+                                        <div>
                                             <label> Senha: </label>
-                                            <Field placeholder="Email" id="senhaUsuario" name="senhaUsuario" className="form-control"/>
-                                            <ErrorMessage componet="span" name="senhaUsuario" className="Form-Field"/>
+                                            <input type='password' placeholder="Email" id="senhaUsuario" name="senhaUsuario" className="form-control" onChange={e => this.setState({ senhaUsuario: e.target.value })}/>
+
                                             <br></br>
                                         </div>
 
                                         <button onClick={"submit"} className="btn btn-success" >Entrar</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
                                     </Form>
-                                   </Formik>
-                                </div>
-                            </div>
-                        </div>
+                    </Grid>
+                </Grid>
 
-                   </div>
-            </div>
+            </>
         )
     }
 }

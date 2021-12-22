@@ -9,9 +9,6 @@ class AnswerSearchComponent extends Component {
         this.state = {
         }
     }
-
-
-    // step 3
     componentDidMount(){
 
     }
@@ -22,25 +19,7 @@ class AnswerSearchComponent extends Component {
     render() {
 
         return (
-            <div>
-                <br></br>
-                   <div className = "container">
-                        <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Pesquisa - Ciência Aberta</h3>
-                                {
-                                  //  this.getTitle()
-                                }
-                                <div className = "card-body">
-                                    <form>
-
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                   </div>
-            </div>
+            <></>
         )
     }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CIENCIAABERTA_API_BASE_URL = "http://localhost:8084/";
+export const CIENCIAABERTA_API_BASE_URL = "http://localhost:8084/";
 
 class CienciaAbertaService {
 
@@ -20,8 +20,8 @@ class CienciaAbertaService {
         return axios.put(CIENCIAABERTA_API_BASE_URL+ 'usuario_update/'+ id,usuario);
     }
 
-     loginUsuario(values) {
-         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'user_login', values);
+     loginUsuario(dados) {
+         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'user_login', dados);
      }
     createCategoria(values) {
         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'categoria', values);
