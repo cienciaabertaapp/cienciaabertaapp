@@ -41,7 +41,7 @@ class LoginUsuarioComponent extends Component {
         try {
          const response = await CienciaAbertaService.loginUsuario(conversao);
          login(response.data.token);
-         this.props.history.push("/usuario_list");
+         window.location.href = "usuario_list";
 
         }catch (err){
             this.setState({
