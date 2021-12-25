@@ -1,19 +1,15 @@
-import React, { Component, useState, useContext } from 'react'
+import React, { Component, useState, useContext, useEffect } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import * as yup from 'yup'
 import * as cors from 'cors'
 import axios from "axios";
 import {Grid} from "@mui/material";
 import {login} from "../auth";
-import {Form} from "react-bootstrap";
 import api from "../api";
+import { Formik, Form, Field, ErrorMessage} from "formik";
+
 
 class LoginUsuarioComponent extends Component {
-
-    constructor() {
-        super();
-      //  this.localStorage = StorageProvider;
-    }
 
     state = {
         emailUsuario:'',
@@ -21,27 +17,17 @@ class LoginUsuarioComponent extends Component {
         error: ""
     };
 
-
     cancel(){
         this.props.history.push('/');
     }
 
-    handleSubmit = async e => {
+    handleSubmit = async (values) => {
 
-       /* console.log('login => ' + JSON.stringify(values));
-        CienciaAbertaService.loginUsuario(values).then(res => {
-            this.props.history.push('/usuario_list');
-            console.log(res);
-        });*/
-        e.preventDefault();
-        const { emailUsuario, senhaUsuario } = this.state;
-        let parametros = {emailUsuario: emailUsuario, senhaUsuario: senhaUsuario};
-        let conversao =  new URLSearchParams(Object.entries(parametros)).toString();
-
+        let conversao =  new URLSearchParams(Object.entries(values)).toString();
         try {
-         const response = await CienciaAbertaService.loginUsuario(conversao);
-         login(response.data.token);
-         window.location.href = "usuario_list";
+            const response = await CienciaAbertaService.loginUsuario(conversao);
+            login(response.data.token);
+            window.location.href = "usuario_list";
 
         }catch (err){
             this.setState({
@@ -49,12 +35,16 @@ class LoginUsuarioComponent extends Component {
                     "Houve um problema com o login, verifique suas credenciais."
             });
         }
-
     }
 
     render(){
+        const validations = yup.object().shape({
+            emailUsuario: yup.string().email().required(),
+            senhaUsuario: yup.string().min(3).required()
+        })
 
         return (
+
             <>
                 <br></br>
                 <Grid container
@@ -64,27 +54,51 @@ class LoginUsuarioComponent extends Component {
                     <Grid item xs={6}>
                         <h3 className="text-center">Acessar minha área</h3>
                         {this.state.error && <p>{this.state.error}</p>}
-                                    <Form className="form" onSubmit={this.handleSubmit}>
-                                        <div  >
-                                            <label> Email: </label>
-                                            <input type='email'  placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control" onChange={e => this.setState({ emailUsuario: e.target.value })} />
+                        <Formik initialValues={{}} onSubmit={this.handleSubmit} validationSchema={validations}>
+                            <Form className="form">
+                                <div className="formField">
+                                    <label htmlFor="emailUsuario"> Email: </label>
+                                    <Field
+                                        type= "text"
+                                        placeholder="Email"
+                                        name="emailUsuario"
+                                        id="emailUsuario"
+                                       // value={this.state.emailUsuario}
+                                        className="form-control"
+                                       // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                    />
+                                    <ErrorMessage componet="span" name="emailUsuario" className="Form-Field"/>
 
-                                        </div>
+                                </div>
 
-                                        <div>
-                                            <label> Senha: </label>
-                                            <input type='password' placeholder="Email" id="senhaUsuario" name="senhaUsuario" className="form-control" onChange={e => this.setState({ senhaUsuario: e.target.value })}/>
+                                <div>
 
-                                            <br></br>
-                                        </div>
+                                    <label htmlFor="senhaUsuario"> Senha: </label>
+                                    <Field
+                                        type='password'
+                                        placeholder="Senha"
+                                        name="senhaUsuario"
+                                        id="senhaUsuario"
+                                        className="form-control"
+                                      //  value={this.state.senhaUsuario}
+                                       // onChange={e => this.setState({ senhaUsuario: e.target.value })}
+                                    />
+                                    <ErrorMessage componet="span" name="senhaUsuario" className="Form-Field"/>
 
-                                        <button onClick={"submit"} className="btn btn-success" >Entrar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </Form>
+                                    <br></br>
+                                </div>
+
+                                <button onClick={"submit"} className="btn btn-success" >Entrar</button>
+                                <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
+                            </Form>
+
+                        </Formik>
+
                     </Grid>
                 </Grid>
 
             </>
+
         )
     }
 }
