@@ -10,6 +10,9 @@ class CienciaAbertaService {
     buscaUsuario(id){
         return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_busca/'+ id);
     }
+    buscaUsuarioLogin(email){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_busca_login/'+ email);
+    }
     listUsuarios(){
         return axios.get(CIENCIAABERTA_API_BASE_URL+ 'usuario_list');
     }
@@ -38,7 +41,7 @@ class CienciaAbertaService {
     }
 
     deleteCategoria(id) {
-        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'categoria_delete',id);
+        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'categoria_delete/'+ id);
     }
 
     createPergunta(values) {

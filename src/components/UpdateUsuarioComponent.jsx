@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
-import { useForm } from "react-hook-form"; 
+import { useForm } from "react-hook-form";
+import {recuperaId} from "../dadosGlobais";
 
 class UpdateUsuarioComponent extends Component {
 
@@ -23,7 +24,6 @@ class UpdateUsuarioComponent extends Component {
     }
 
     componentDidMount(){
-
         CienciaAbertaService.buscaUsuario(this.state.id).then( (res) =>{
             let usuario = res.data;
             this.setState({nomeUsuario: usuario.nomeUsuario,
@@ -44,10 +44,10 @@ class UpdateUsuarioComponent extends Component {
              instituicaoUsuario: this.state.instituicaoUsuario,
              ocupacaoUsuario: this.state.ocupacaoUsuario,
              permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario};
-        console.log('usuario => ' + JSON.stringify(usuario));
-
+      //  console.log('usuario => ' + JSON.stringify(usuario));
+        recuperaId(this.state.id);
         CienciaAbertaService.updateUsuario(this.state.id,usuario).then(res =>{
-            this.props.history.push('/usuario_list');
+            this.props.history.push('/'+this.state.id);
         });
     }
 
@@ -70,7 +70,7 @@ class UpdateUsuarioComponent extends Component {
     }
 
     cancel(){
-        this.props.history.push('/usuario_list');
+        this.props.history.push('/');
     }
     render() {
         return (

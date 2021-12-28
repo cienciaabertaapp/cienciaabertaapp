@@ -21,9 +21,12 @@ class ListCategoriaComponent extends Component {
 
 
     deleteCategoria(id){
-        CienciaAbertaService.deleteCategoria(id).then( res => {
+        console.log(id);
+        console.log(this.state.categorias);
+
+       CienciaAbertaService.deleteCategoria(id).then( res => {
             this.setState({categorias: this.state.categorias.filter(categoria => categoria.id !== id)});
-        });
+      });
     }
 
     editCategoria(id){

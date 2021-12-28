@@ -12,8 +12,10 @@ import CreateUsuarioComponent from "./CreateUsuarioComponent";
 import ListUserComponent from "./ListUserComponent";
 import UpdateCategoriaComponent from "./UpdateCategoriaComponent";
 import DefaultComponent from "./DefaultComponent";
-import {logout} from "../auth";
+import {getToken, isAuthenticated, logout, parseJwt, TOKEN_KEY} from "../auth";
 import LoginUsuarioComponent from "./LoginUsuarioComponent";
+import {config} from "react-transition-group";
+import api from "../api";
 
 class MenuAdminComponent extends Component {
     constructor(props) {
@@ -58,12 +60,12 @@ class MenuAdminComponent extends Component {
         }
     }
 
+
     render() {
         return (
         <div>
-
                     <div className="text-center" style={{fontSize:"x-large"}}>
-                        Administrador
+                      Administrador
                     </div>
                     <br></br>
                     <a onClick={this.handleMostraCategoria}>

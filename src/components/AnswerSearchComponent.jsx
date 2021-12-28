@@ -38,8 +38,6 @@ class AnswerSearchComponent extends Component {
             });
         });
 
-        console.log(this.state.idUsuario);
-
     }
     proximoStep = (e,step) => {
         e.preventDefault();
@@ -79,13 +77,7 @@ class AnswerSearchComponent extends Component {
                 "estado": 'true'
             });
         }
-        //   console.log(this.state.respostasAlternative);
     }
-
-
-
-
-
 
 
     onChangeAberta = (e,idPergunta) => {
@@ -147,7 +139,6 @@ class AnswerSearchComponent extends Component {
                 "estado": "true"
             });
         }
-        //  console.log(this.state.respostasSelecao);
     }
 
     salvaPesquisa = (e) => {
@@ -157,7 +148,6 @@ class AnswerSearchComponent extends Component {
             respostasUsuario: this.state.respostas
 
         };
-        // console.log('resposta => ' + JSON.stringify(respostasUsuario));
 
         CienciaAbertaService.createResposta(respostasUsuario).then(res =>{
             this.props.history.push('/');

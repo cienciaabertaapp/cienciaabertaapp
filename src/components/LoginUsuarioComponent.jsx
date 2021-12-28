@@ -7,6 +7,8 @@ import {Grid} from "@mui/material";
 import {login} from "../auth";
 import api from "../api";
 import { Formik, Form, Field, ErrorMessage} from "formik";
+import {recuperaId} from "../dadosGlobais";
+import {Redirect} from "react-router-dom";
 
 
 class LoginUsuarioComponent extends Component {
@@ -14,7 +16,7 @@ class LoginUsuarioComponent extends Component {
     state = {
         emailUsuario:'',
         senhaUsuario: '',
-        error: ""
+        error: "",
     };
 
     cancel(){
@@ -22,25 +24,41 @@ class LoginUsuarioComponent extends Component {
     }
 
     handleSubmit = async (values) => {
-
-        let conversao =  new URLSearchParams(Object.entries(values)).toString();
-        try {
-            const response = await CienciaAbertaService.loginUsuario(conversao);
-            login(response.data.token);
-            window.location.href = "usuario_list";
-
-        }catch (err){
-            this.setState({
-                error:
-                    "Houve um problema com o login, verifique suas credenciais."
-            });
+         if (!values ) {
+            this.setState({ error: "Preencha todos os dados para se cadastrar" });
+        } else {
+            let conversao =  new URLSearchParams(values).toString();
+            try {
+                const response = await CienciaAbertaService.loginUsuario(conversao);
+                let tipoUsuario = login(response.data.access_token);
+                console.log(tipoUsuario);
+                if (tipoUsuario == "ADMIN"){
+                    window.location.href = "usuario_list";
+                }else{
+                    CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
+                        console.log(res.data.id);
+                        window.location.href = "/usuario_edit/"+ res.data.id;
+                    });
+                }
+            } catch (err) {
+                this.setState({
+                    error:
+                        "Houve um problema com o login, verifique suas credenciais."
+                });
+            }
         }
     }
 
     render(){
         const validations = yup.object().shape({
-            emailUsuario: yup.string().email().required(),
-            senhaUsuario: yup.string().min(3).required()
+            emailUsuario: yup
+                .string()
+                .email('Coloque um email válido!!')
+                .required('Email é um campo obrigatório!'),
+            senhaUsuario: yup
+                .string()
+                .min(3,'Senha muito curta.')
+                .required('Senha é um campo obrigatório!')
         })
 
         return (
@@ -63,12 +81,11 @@ class LoginUsuarioComponent extends Component {
                                         placeholder="Email"
                                         name="emailUsuario"
                                         id="emailUsuario"
-                                       // value={this.state.emailUsuario}
                                         className="form-control"
-                                       // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                        // onChange={e => this.setState({ emailUsuario: e.target.value })}
                                     />
-                                    <ErrorMessage componet="span" name="emailUsuario" className="Form-Field"/>
 
+                                    <ErrorMessage componet="ErrorMessage" name="emailUsuario" className="Form-Error"/>
                                 </div>
 
                                 <div>
@@ -80,10 +97,9 @@ class LoginUsuarioComponent extends Component {
                                         name="senhaUsuario"
                                         id="senhaUsuario"
                                         className="form-control"
-                                      //  value={this.state.senhaUsuario}
-                                       // onChange={e => this.setState({ senhaUsuario: e.target.value })}
+                                        // onChange={e => this.setState({ senhaUsuario: e.target.value })}
                                     />
-                                    <ErrorMessage componet="span" name="senhaUsuario" className="Form-Field"/>
+                                    <ErrorMessage componet="span" sever name="senhaUsuario" className="Form-Field"/>
 
                                     <br></br>
                                 </div>

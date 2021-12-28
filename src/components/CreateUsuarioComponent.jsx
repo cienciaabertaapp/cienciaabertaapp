@@ -39,7 +39,7 @@ class CreateUsuarioComponent extends Component {
        // console.log('usuario => ' + JSON.stringify(usuario));
 
         CienciaAbertaService.createUsuario(usuario).then(res =>{
-            console.log(res.data.id);
+        //    console.log(res.data.id);
            this.props.history.push('/pesquisa/'+ res.data.id);
         });
     }

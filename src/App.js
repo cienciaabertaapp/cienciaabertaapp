@@ -17,7 +17,7 @@ import UpdateCategoriaComponent from "./components/UpdateCategoriaComponent";
 import ListPerguntasComponent from "./components/ListPerguntasComponent";
 import NotFound from "./components/NotFound";
 import {history} from "./history";
-import { isAuthenticated } from "./auth";
+import {isAuthenticated, parseJwt} from "./auth";
 import CreatePerguntaComponent from "./components/CreatePerguntaComponent";
 import ViewPerguntaComponent from "./components/ViewPerguntaComponent";
 import UpdatePerguntaComponent from "./components/UpdatePerguntaComponent";
@@ -27,23 +27,13 @@ import ListGrauMaturidadeComponent from "./components/ListGrauMaturidadeComponen
 import Lateral from "./components/Lateral";
 import {Grid} from "@mui/material";
 import MenuAdminComponent from "./components/MenuAdminComponent";
-import MenuComponent from "./components/MenuComponent";import axios from "axios";
+import MenuComponent from "./components/MenuComponent";
+import axios from "axios";
 import { getToken } from "./auth";
 import MyAdmin from "./contexts/MyAdmin";
 import RulesAdmin from "./contexts/MyAdmin";
-
-
-const api = axios.create({
-    baseURL: "http://127.0.0.1:3333"
-});
-
-api.interceptors.request.use(async config => {
-    const token = getToken();
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
+import {CIENCIAABERTA_API_BASE_URL} from "./services/CienciaAbertaService";
+import MenuUserComponent from "./components/MenuUserComponent";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props =>
@@ -56,6 +46,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
     />
 );
+
 
 function App() {
     return (
@@ -71,7 +62,7 @@ function App() {
                 <Grid container>
                     {  isAuthenticated() ?
                         <Grid item xs={2}>
-                            <MenuAdminComponent/>
+                            {parseJwt() == "ADMIN" ? <MenuAdminComponent/>: <MenuUserComponent/> }
                         </Grid>
                         : <Grid item xs={2}>
                             <MenuComponent/>
@@ -82,7 +73,7 @@ function App() {
                             <Route  exact path = "/" component = {DefaultComponent}></Route>
                             <Route path = "/user_login" component = {LoginUsuarioComponent}></Route>
                             <Route path = "/usuario" component = {CreateUsuarioComponent}></Route>
-                            <Route path = "/usuario_edit/:id" component = {UpdateUsuarioComponent}></Route>
+                            <PrivateRoute path = "/usuario_edit/:id" component = {UpdateUsuarioComponent}></PrivateRoute>
                             <PrivateRoute path = "/usuario_view/:id" component = {ViewUsuarioComponent}></PrivateRoute>
                             <PrivateRoute path = "/usuario_list" component = {ListUserComponent}></PrivateRoute>
                             <PrivateRoute path = "/categoria" component = {CreateCategoriaComponent}></PrivateRoute>
