@@ -1,6 +1,7 @@
 import LoginUsuarioComponent from "./components/LoginUsuarioComponent";
 import {Redirect} from "react-router-dom";
 import {React} from "react";
+import {removeUsuario} from "./dadosGlobais";
 
 export const TOKEN_KEY = "@cienciaabertaapp-Token";
 
@@ -19,6 +20,7 @@ export const login = token => {
 
 export const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
+    removeUsuario();
     window.location.href = "/";
 };
 

@@ -59,11 +59,15 @@ class CienciaAbertaService {
     }
 
     buscaPerguntasCategoria(id){
-        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'perguntas_categoria?idCategoria='+id);
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'perguntas_categoria?idCategoria='+ id);
     }
     createResposta(respostas){
         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'respostas', respostas);
     }
+    listRespostas(){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'respostas_list');
+    }
+
     createGrauMaturidade(values) {
         return axios.post(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade', values);
     }

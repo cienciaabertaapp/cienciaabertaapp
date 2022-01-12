@@ -71,6 +71,7 @@ class ListCategoriaComponent extends Component {
                                 this.state.categorias.map(
                                     categoria =>
                                         <tr key = {categoria.id}>
+
                                             <td width='50%'> { categoria.descricaoCategoriaPergunta} </td>
                                             <td width='33%'> { categoria.pontosPossiveisCategoriaPergunta} %</td>
                                             <td>

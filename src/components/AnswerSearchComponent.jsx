@@ -30,6 +30,7 @@ class AnswerSearchComponent extends Component {
     componentDidMount(){
         CienciaAbertaService.listCategoria().then((res) => {
             this.setState({ categorias: res.data});
+            console.log(this.state.categorias);
             this.setState({quantidadeSteps: this.state.categorias.length - 1,
                 categoriaAtual: this.state.categorias[this.state.stepAtual].descricaoCategoriaPergunta
             });
@@ -57,8 +58,8 @@ class AnswerSearchComponent extends Component {
         });
     }
 
-
-    onChangeAlternative = (e,idPergunta,idAlternativa) => {
+// ----------------------------- ALTERNATIVE
+    onChangeAlternative = (e,idPergunta,idAlternativa,idCategoria) => {
         this.setState({alternative: e.target.value});
         let inserirAlternative = true;
         this.state.respostas.map(res => {
@@ -72,6 +73,8 @@ class AnswerSearchComponent extends Component {
         if (inserirAlternative) {
             this.state.respostas.push({
                 "idPergunta": idPergunta,
+                "idCategoria": idCategoria,
+                "tipoPergunta": "ALTERNATIVE",
                 "idAlternativa": idAlternativa,
                 "resposta": e.target.value,
                 "estado": 'true'
@@ -80,7 +83,8 @@ class AnswerSearchComponent extends Component {
     }
 
 
-    onChangeAberta = (e,idPergunta) => {
+// ----------------------------- ABERTA
+    onChangeAberta = (e,idPergunta,idCategoria) => {
         this.setState({aberta: e.target.value});
         let inserirAberta = true;
         this.state.respostas.map(res => {
@@ -93,13 +97,15 @@ class AnswerSearchComponent extends Component {
         if (inserirAberta) {
             this.state.respostas.push({
                 "idPergunta": idPergunta,
+                "idCategoria": idCategoria,
+                "tipoPergunta": "ABERTA",
                 "resposta": e.target.value
             });
         }
         // console.log(this.state.respostasAberta);
     }
-
-    onChangeTrueFalse = (e,idPergunta) => {
+// ----------------------------- TRUE-FALSE
+    onChangeTrueFalse = (e,idPergunta,idCategoria) => {
 
         this.setState({trueFalse: e.target.value});
         let inserirTrueFalse = true;
@@ -113,13 +119,15 @@ class AnswerSearchComponent extends Component {
         if (inserirTrueFalse) {
             this.state.respostas.push({
                 "idPergunta": idPergunta,
+                "idCategoria": idCategoria,
+                "tipoPergunta": "TRUE_FALSE",
                 "resposta": e.target.value
             });
         }
         //   console.log(this.state.respostasTrueFalse);
     }
-
-    onChangeSelecao = (e,idPergunta,idAlternativa) => {
+// ----------------------------- SELEÇÃO
+    onChangeSelecao = (e,idPergunta,idAlternativa,idCategoria) => {
         this.setState({selecao: e.target.value});
         let inserirSelecao = true;
         this.state.respostas.map(res => {
@@ -134,6 +142,8 @@ class AnswerSearchComponent extends Component {
         if (inserirSelecao) {
             this.state.respostas.push({
                 "idPergunta": idPergunta,
+                "idCategoria": idCategoria,
+                "tipoPergunta": "SELECAO",
                 "idAlternativa": idAlternativa,
                 "resposta": e.target.value,
                 "estado": "true"
@@ -154,7 +164,7 @@ class AnswerSearchComponent extends Component {
         });
 
 
-        console.log(this.state.respostas);
+      //  console.log(this.state.respostas);
     }
 
 
@@ -193,7 +203,7 @@ class AnswerSearchComponent extends Component {
                                                                    "true"
                                                                    : null }
                                                                name={perguntas.perguntaTipoPergunta + perguntas.id}
-                                                               onChange={(e) => this.onChangeTrueFalse(e,perguntas.id)} /> Verdadeiro
+                                                               onChange={(e) => this.onChangeTrueFalse(e,perguntas.id,perguntas.categoria.id)} /> Verdadeiro
                                                         <br></br>
                                                         <input type="radio"
                                                                value="false"
@@ -201,7 +211,7 @@ class AnswerSearchComponent extends Component {
                                                                    "true"
                                                                    : null }
                                                                name={perguntas.perguntaTipoPergunta + perguntas.id}
-                                                               onChange={(e) => this.onChangeTrueFalse(e,perguntas.id)}  /> Falso
+                                                               onChange={(e) => this.onChangeTrueFalse(e,perguntas.id,perguntas.categoria.id)}  /> Falso
                                                     </div>
                                                 </>
                                                 : perguntas.perguntaTipoPergunta == "ABERTA" ? //-------------------ABERTA -----------------------
@@ -213,7 +223,7 @@ class AnswerSearchComponent extends Component {
                                                          id="resposta_aberta"
                                                          value={this.state.respostas.filter(res => res.idPergunta == perguntas.id).map( sel => (sel.resposta))}
                                                          name={perguntas.perguntaTipoPergunta + perguntas.id}
-                                                         onChange={(e) => this.onChangeAberta(e,perguntas.id)}
+                                                         onChange={(e) => this.onChangeAberta(e,perguntas.id,perguntas.categoria.id)}
                                                      />
                                                     </>
                                                     : perguntas.perguntaTipoPergunta == "ALTERNATIVE" ? //-------------------ALTERNATIVE -----------------------
@@ -226,7 +236,7 @@ class AnswerSearchComponent extends Component {
                                                                             checked={this.state?.respostas.filter(res => ((res.idPergunta == perguntas.id)&&(res.idAlternativa == alternativas.id)))[0]?.estado}
                                                                             value={alternativas.descricaoRespostasPossiveis}
                                                                             name={perguntas.perguntaTipoPergunta + perguntas.id}
-                                                                            onChange={(e) => this.onChangeAlternative(e,perguntas.id,alternativas.id)}
+                                                                            onChange={(e) => this.onChangeAlternative(e,perguntas.id,alternativas.id,perguntas.categoria.id)}
                                                                         />
                                                                         ({alternativas.id})  {alternativas.descricaoRespostasPossiveis}
                                                                         <br></br>
@@ -244,7 +254,7 @@ class AnswerSearchComponent extends Component {
                                                                             type="checkbox"
                                                                             checked= {this.state?.respostas.filter(res => ((res.idPergunta == perguntas.id)&&(res.idAlternativa == alternativas.id)))[0]?.estado}                                                                           value={alternativas.descricaoRespostasPossiveis}
                                                                             name={perguntas.perguntaTipoPergunta + alternativas.id}
-                                                                            onChange={(e) => this.onChangeSelecao(e,perguntas.id,alternativas.id)}
+                                                                            onChange={(e) => this.onChangeSelecao(e,perguntas.id,alternativas.id,perguntas.categoria.id)}
                                                                         />
                                                                         {alternativas.descricaoRespostasPossiveis}
                                                                         <br></br>

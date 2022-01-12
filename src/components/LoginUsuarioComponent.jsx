@@ -4,10 +4,10 @@ import * as yup from 'yup'
 import * as cors from 'cors'
 import axios from "axios";
 import {Grid} from "@mui/material";
-import {login} from "../auth";
+import {login, TOKEN_KEY} from "../auth";
 import api from "../api";
 import { Formik, Form, Field, ErrorMessage} from "formik";
-import {recuperaId} from "../dadosGlobais";
+import {ID_USUARIO, usuario} from "../dadosGlobais";
 import {Redirect} from "react-router-dom";
 
 
@@ -36,7 +36,8 @@ class LoginUsuarioComponent extends Component {
                     window.location.href = "usuario_list";
                 }else{
                     CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
-                        console.log(res.data.id);
+                       // console.log(res.data.id);
+                        usuario(res.data.id);
                         window.location.href = "/usuario_edit/"+ res.data.id;
                     });
                 }

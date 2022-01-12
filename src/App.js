@@ -35,6 +35,7 @@ import RulesAdmin from "./contexts/MyAdmin";
 import {CIENCIAABERTA_API_BASE_URL} from "./services/CienciaAbertaService";
 import MenuUserComponent from "./components/MenuUserComponent";
 
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props =>
         isAuthenticated() ? (
@@ -47,8 +48,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     />
 );
 
-
 function App() {
+
+
     return (
         <div>
             <Router history={history}>

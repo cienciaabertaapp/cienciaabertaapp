@@ -15,6 +15,7 @@ class UpdateUsuarioComponent extends Component {
                 ocupacaoUsuario: '',
                 permissaoDivulgacaoDadosUsuario: ''
             }
+
             this.handleNomeUsuarioChange = this.handleNomeUsuarioChange.bind(this);
             this.handleEmailUsuarioChange = this.handleEmailUsuarioChange.bind(this);
             this.handleInstituicaoUsuarioChange = this.handleInstituicaoUsuarioChange.bind(this);
@@ -45,9 +46,11 @@ class UpdateUsuarioComponent extends Component {
              ocupacaoUsuario: this.state.ocupacaoUsuario,
              permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario};
       //  console.log('usuario => ' + JSON.stringify(usuario));
-        recuperaId(this.state.id);
+       // recuperaId(this.state.id);
         CienciaAbertaService.updateUsuario(this.state.id,usuario).then(res =>{
-            this.props.history.push('/'+this.state.id);
+          //  this.props.idUsuario = this.state.id;
+
+            this.props.history.push('/');
         });
     }
 
