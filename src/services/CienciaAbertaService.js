@@ -26,8 +26,8 @@ class CienciaAbertaService {
      loginUsuario(dados) {
          return axios.post(CIENCIAABERTA_API_BASE_URL+ 'user_login', dados);
      }
-    createCategoria(values) {
-        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'categoria', values);
+    createCategoria(categoria) {
+        return axios.post(CIENCIAABERTA_API_BASE_URL+ 'categoria', categoria);
     }
     buscaCategoria(id){
         return axios.get(CIENCIAABERTA_API_BASE_URL+ 'categoria_busca/'+ id);
@@ -83,9 +83,13 @@ class CienciaAbertaService {
     }
 
     deleteGrauMaturidade(id) {
-        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_delete',id);
+        return axios.delete(CIENCIAABERTA_API_BASE_URL+ 'grau_maturidade_delete/' + id);
     }
 
+
+    buscaPesquisa(id){
+        return axios.get(CIENCIAABERTA_API_BASE_URL+ 'pesquisa_usuario/'+ id);
+    }
 
 }
 

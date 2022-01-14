@@ -13,11 +13,7 @@ import {Redirect} from "react-router-dom";
 
 class LoginUsuarioComponent extends Component {
 
-    state = {
-        emailUsuario:'',
-        senhaUsuario: '',
-        error: "",
-    };
+    state = ({errors:""});
 
     cancel(){
         this.props.history.push('/');
@@ -25,7 +21,7 @@ class LoginUsuarioComponent extends Component {
 
     handleSubmit = async (values) => {
          if (!values ) {
-            this.setState({ error: "Preencha todos os dados para se cadastrar" });
+            this.setState({ errors: "Preencha todos os dados para se cadastrar" });
         } else {
             let conversao =  new URLSearchParams(values).toString();
             try {
@@ -43,7 +39,7 @@ class LoginUsuarioComponent extends Component {
                 }
             } catch (err) {
                 this.setState({
-                    error:
+                    errors:
                         "Houve um problema com o login, verifique suas credenciais."
                 });
             }
@@ -60,8 +56,15 @@ class LoginUsuarioComponent extends Component {
                 .string()
                 .min(3,'Senha muito curta.')
                 .required('Senha é um campo obrigatório!')
-        })
+        });
 
+        const initialValues = {
+            senhaUsuario: "",
+            emailUsuario: "",
+            error:"",
+        };
+
+        const renderError = (message) => <p style={{fontSize: "small", color:"red"}}>{message}</p>;
         return (
 
             <>
@@ -72,8 +75,8 @@ class LoginUsuarioComponent extends Component {
                       alignItems="center">
                     <Grid item xs={6}>
                         <h3 className="text-center">Acessar minha área</h3>
-                        {this.state.error && <p>{this.state.error}</p>}
-                        <Formik initialValues={{}} onSubmit={this.handleSubmit} validationSchema={validations}>
+                        {this.state.errors && <p>{this.state.errors}</p>}
+                        <Formik initialValues={initialValues} onSubmit={this.handleSubmit} validationSchema={validations}>
                             <Form className="form">
                                 <div className="formField">
                                     <label htmlFor="emailUsuario"> Email: </label>
@@ -86,7 +89,7 @@ class LoginUsuarioComponent extends Component {
                                         // onChange={e => this.setState({ emailUsuario: e.target.value })}
                                     />
 
-                                    <ErrorMessage componet="ErrorMessage" name="emailUsuario" className="Form-Error"/>
+                                    <ErrorMessage name="emailUsuario" render={renderError}/>
                                 </div>
 
                                 <div>
@@ -100,7 +103,7 @@ class LoginUsuarioComponent extends Component {
                                         className="form-control"
                                         // onChange={e => this.setState({ senhaUsuario: e.target.value })}
                                     />
-                                    <ErrorMessage componet="span" sever name="senhaUsuario" className="Form-Field"/>
+                                    <ErrorMessage name="senhaUsuario" render={renderError}/>
 
                                     <br></br>
                                 </div>

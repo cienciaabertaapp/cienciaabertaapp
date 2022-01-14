@@ -34,6 +34,7 @@ import MyAdmin from "./contexts/MyAdmin";
 import RulesAdmin from "./contexts/MyAdmin";
 import {CIENCIAABERTA_API_BASE_URL} from "./services/CienciaAbertaService";
 import MenuUserComponent from "./components/MenuUserComponent";
+import ViewPesquisaUsuarioComponent from "./components/ViewPesquisaUsuarioComponent";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -89,6 +90,7 @@ function App() {
                             <PrivateRoute path = "/grau_maturidade" component = {CreateGrauMaturidadeComponent}></PrivateRoute>
                             <PrivateRoute path = "/grau_maturidade_edit/:id" component = {UpdateGrauMaturidadeComponent}></PrivateRoute>
                             <PrivateRoute path = "/grau_maturidade_list" component = {ListGrauMaturidadeComponent}></PrivateRoute>
+                            <PrivateRoute path = "/pesquisa_usuario/:id" component = {ViewPesquisaUsuarioComponent}></PrivateRoute>
                             <Route component={NotFound}></Route>
                             {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
                           <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}

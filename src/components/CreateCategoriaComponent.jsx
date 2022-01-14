@@ -1,68 +1,98 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
-import { useForm } from "react-hook-form"; 
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { Formik, Form, Field, ErrorMessage} from "formik";
 
 class CreateCategoriaComponent extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
+    saveCategoria  = (values) => {
+        console.log(values);
+        if (!values ) {
+            this.setState({ error: "Preencha todos os dados para se cadastrar" });
+        } else {
+            try {
+                CienciaAbertaService.createCategoria(values).then(res =>{
+                    this.props.history.push('/categoria_list');
+                });
+            } catch (err) {
+                this.setState({
+                    error:
+                        "Houve um problema ao salvar seus dados."
+                });
+            }
         }
-    }
-    handleDescricaoCategoriaChange = (event) => {
-        this.setState ({descricaoCategoria: event.target.value});
-    }
-
-    handlePontosPossiveisCategoriaPerguntaChange = (event) => {
-        this.setState ({pontosPossiveisCategoriaPergunta: event.target.value});
-    }
-    saveCategoria = (e) => {
-        e.preventDefault();
-        let categoria = {
-             descricaoCategoriaPergunta: this.state.descricaoCategoria,
-            pontosPossiveisCategoriaPergunta:this.state.pontosPossiveisCategoriaPergunta};
-        console.log('categoria => ' + JSON.stringify(categoria));
-
-            CienciaAbertaService.createCategoria(categoria).then(res =>{
-            this.props.history.push('/categoria_list');
-        });
     }
     cancel(){
         this.props.history.push('/');
     }
     render() {
+        const validations = yup.object().shape({
+            descricaoCategoriaPergunta: yup
+                .string()
+                .min(6,'Nome muito curto!!')
+                .required('Nome categoria é obrigatório!'),
+            pontosPossiveisCategoriaPergunta: yup
+                .number()
+                .positive('Número deve ser positivo')
+                .integer("Inteiro")
+                .required('Campo obrigatório!'),
+        });
+
+        const initialValues = {
+            descricaoCategoriaPergunta: "",
+            pontosPossiveisCategoriaPergunta: 0,
+            error: "",
+        };
+
+        const renderError = (message) => <p style={{fontSize: "small", color:"red"}}>{message}</p>;
+
         return (
             <div>
                 <br></br>
-                   <div className = "container">
-                        <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Adicionar Categoria</h3>
+                <div className = "container">
+                    <div className = "row">
+                        <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Adicionar Categoria</h3>
 
-                                <div className = "card-body">
-                                    <form>
+                            <div className = "card-body">
+                                <Formik initialValues={initialValues} onSubmit={this.saveCategoria} validationSchema={validations}>
+                                    <Form className="form">
                                         <div className = "form-group">
-                                            <label> Nome Categoria: </label>
-                                            <input placeholder="Nome Categoria" id="descricaoCategoria" name="descricaoCategoria" className="form-control"
-                                                   value = {this.state.descricaoCategoria} onChange = {this.handleDescricaoCategoriaChange}  />
-                                        <br></br>
+                                            <label htmlFor="descricaoCategoriaPergunta"> Nome Categoria: </label>
+                                            <Field
+                                                type= "text"
+                                                placeholder="Nome Categoria"
+                                                id="descricaoCategoriaPergunta"
+                                                name="descricaoCategoriaPergunta"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage name="descricaoCategoriaPergunta" render={renderError}/>
+                                            <br></br>
                                         </div>
 
                                         <div className = "form-group">
-                                            <label> Pontos Possíveis Categoria (%): </label>
-                                            <input placeholder="Pontos Possíveis" id="pontosPossiveisCategoriaPergunta" name="pontosPossiveisCategoriaPergunta" className="form-control"
-                                                   value = {this.state.pontosPossiveisCategoriaPergunta} onChange = {this.handlePontosPossiveisCategoriaPerguntaChange}  />
+                                            <label htmlFor="pontosPossiveisCategoriaPergunta"> Pontos Possíveis Categoria (%): </label>
+                                            <Field
+                                                type= "number"
+                                                placeholder="Pontos Possíveis"
+                                                id="pontosPossiveisCategoriaPergunta"
+                                                name="pontosPossiveisCategoriaPergunta"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage name="pontosPossiveisCategoriaPergunta" render={renderError}/>
                                             <br></br>
                                         </div>
 
 
-                                        <button className="btn btn-success" onClick={this.saveCategoria}>Salvar</button>
+                                        <button className="btn btn-success" type="submit" onClick={"submit"}>Salvar</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
-                                </div>
+                                    </Form>
+                                </Formik>
                             </div>
                         </div>
+                    </div>
 
-                   </div>
+                </div>
             </div>
         )
     }

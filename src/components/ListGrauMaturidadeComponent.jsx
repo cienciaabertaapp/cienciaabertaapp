@@ -18,6 +18,8 @@ class ListGrauMaturidadeComponent extends Component {
 
 
     deleteGrauMaturidade(id){
+        console.log(id);
+
         CienciaAbertaService.deleteGrauMaturidade(id).then( res => {
             this.setState({grausMaturidade: this.state.grausMaturidade.filter(grauMaturidade => grauMaturidade.id !== id)});
         });
