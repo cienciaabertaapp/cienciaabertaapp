@@ -7,7 +7,6 @@ import { Formik, Form, Field, ErrorMessage} from "formik";
 class CreateCategoriaComponent extends Component {
 
     saveCategoria  = (values) => {
-        console.log(values);
         if (!values ) {
             this.setState({ error: "Preencha todos os dados para se cadastrar" });
         } else {

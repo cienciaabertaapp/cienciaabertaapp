@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 class UpdateGrauMaturidadeComponent extends Component {
 
@@ -8,66 +10,29 @@ class UpdateGrauMaturidadeComponent extends Component {
         super(props)
         this.state = {
             id: this.props.match.params.id,
-            nivelGrauMaturidade:'',
-            descricaoGrauMaturidade: '',
-            pontuacaoMinimaGrauMaturidade: '',
-            pontuacaoMaximaGrauMaturidade: '',
-            porcentagemGrauMaturidade: ''
-        }
-        this.handleNivelGrauMaturidadeChange = this.handleNivelGrauMaturidadeChange.bind(this);
-        this.handleDescricaoGrauMaturidadeChange = this.handleDescricaoGrauMaturidadeChange.bind(this);
-        this.handlePontuacaoMinimaGrauMaturidadeChange = this.handlePontuacaoMinimaGrauMaturidadeChange.bind(this);
-        this.handlePontuacaoMaximaGrauMaturidadeChange = this.handlePontuacaoMaximaGrauMaturidadeChange.bind(this);
-        this.handlePorcentagemGrauMaturidadeChange = this.handlePorcentagemGrauMaturidadeChange.bind(this);
 
+        }
     }
 
     componentDidMount(){
         CienciaAbertaService.buscaGrauMaturidade(this.state.id).then( (res) =>{
+         //   console.log(this.state.id);
             let grauMaturidade = res.data;
             this.setState({
-                nivelGrauMaturidade: grauMaturidade.nivelGrauMaturidade,
-                descricaoGrauMaturidade: grauMaturidade.descricaoGrauMaturidade,
-                pontuacaoMinimaGrauMaturidade: grauMaturidade.pontuacaoMinimaGrauMaturidade,
-                pontuacaoMaximaGrauMaturidade: grauMaturidade.pontuacaoMaximaGrauMaturidade,
-                porcentagemGrauMaturidade: grauMaturidade.porcentagemGrauMaturidade
+                    nivelGrauMaturidade: grauMaturidade.nivelGrauMaturidade,
+                    descricaoGrauMaturidade: grauMaturidade.descricaoGrauMaturidade,
+                    pontuacaoMinimaGrauMaturidade: grauMaturidade.pontuacaoMinimaGrauMaturidade,
+                    pontuacaoMaximaGrauMaturidade: grauMaturidade.pontuacaoMaximaGrauMaturidade,
+                    porcentagemGrauMaturidade: grauMaturidade.porcentagemGrauMaturidade
             });
+
         });
 
     }
 
-    handleNivelGrauMaturidadeChange = (event) => {
-        this.setState ({nivelGrauMaturidade: event.target.value});
-    }
+    saveGrauMaturidade = (values) => {
 
-    handleDescricaoGrauMaturidadeChange = (event) => {
-        this.setState ({descricaoGrauMaturidade: event.target.value});
-    }
-
-    handlePontuacaoMinimaGrauMaturidadeChange = (event) => {
-        this.setState ({pontuacaoMinimaGrauMaturidade: event.target.value});
-    }
-
-    handlePontuacaoMaximaGrauMaturidadeChange = (event) => {
-        this.setState ({pontuacaoMaximaGrauMaturidade: event.target.value});
-    }
-
-    handlePorcentagemGrauMaturidadeChange = (event) => {
-        this.setState ({porcentagemGrauMaturidade: event.target.value});
-    }
-
-    saveGrauMaturidade = (e) => {
-        e.preventDefault();
-        let grauMaturidade = {
-            nivelGrauMaturidade: this.state.nivelGrauMaturidade,
-            descricaoGrauMaturidade: this.state.descricaoGrauMaturidade,
-            pontuacaoMinimaGrauMaturidade: this.state.pontuacaoMinimaGrauMaturidade,
-            pontuacaoMaximaGrauMaturidade: this.state.pontuacaoMaximaGrauMaturidade,
-            porcentagemGrauMaturidade: this.state.porcentagemGrauMaturidade
-        };
-        console.log('grauMaturidade => ' + JSON.stringify(grauMaturidade));
-
-        CienciaAbertaService.updateGrauMaturidade(this.state.id,grauMaturidade).then(res =>{
+        CienciaAbertaService.updateGrauMaturidade(this.state.id,values).then(res =>{
             this.props.history.push('/grau_maturidade_list');
         });
     }
@@ -75,58 +40,127 @@ class UpdateGrauMaturidadeComponent extends Component {
         this.props.history.push('/grau_maturidade_list');
     }
     render() {
+
+        const validations = yup.object().shape({
+            nivelGrauMaturidade: yup
+                .string()
+                .min(4,'Nome muito curto!!')
+                .required('Nome categoria é obrigatório!'),
+            descricaoGrauMaturidade: yup
+                .string()
+                .min(6,'Nome muito curto!!')
+                .required('Nome categoria é obrigatório!'),
+            pontuacaoMinimaGrauMaturidade: yup
+                .number()
+                .positive('Número deve ser positivo')
+                .integer("Inteiro")
+                .required('Campo obrigatório!'),
+            pontuacaoMaximaGrauMaturidade: yup
+                .number()
+                .positive('Número deve ser positivo')
+                .integer("Inteiro")
+                .required('Campo obrigatório!'),
+            porcentagemGrauMaturidade: yup
+                .number()
+                .positive('Número deve ser positivo')
+                .integer("Inteiro")
+                .required('Campo obrigatório!'),
+        });
+
+       const initialValues = {
+            nivelGrauMaturidade: this.state.nivelGrauMaturidade,
+            descricaoGrauMaturidade: this.state.descricaoGrauMaturidade,
+            pontuacaoMinimaGrauMaturidade:this.state.pontuacaoMinimaGrauMaturidade,
+            pontuacaoMaximaGrauMaturidade: this.state.pontuacaoMaximaGrauMaturidade,
+            porcentagemGrauMaturidade: this.state.porcentagemGrauMaturidade,
+            error: "",
+        };
+
+        const renderError = (message) => <p style={{fontSize: "small", color:"red"}}>{message}</p>;
+
+
         return (
             <div>
                 <br></br>
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Grau Maturidade</h3>
-
                             <div className = "card-body">
-                                <form>
+                                <Formik  enableReinitialize initialValues={initialValues} onSubmit={this.saveGrauMaturidade} validationSchema={validations}>
+                                    <Form className="form">
                                         <div className = "form-group">
-                                            <label> Nível: </label>
-                                            <input placeholder="Nível" id="nivelGrauMaturidade" name="nivelGrauMaturidade" className="form-control"
-                                                   value = {this.state.nivelGrauMaturidade} onChange = {this.handleNivelGrauMaturidadeChange}  />
+                                            <label htmlFor="nivelGrauMaturidade"> Nível: </label>
+                                            <Field
+                                                placeholder="Nível"
+                                                id="nivelGrauMaturidade"
+                                                name="nivelGrauMaturidade"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage name="nivelGrauMaturidade" render={renderError}/>
                                             <br></br>
                                         </div>
 
                                         <div className = "form-group">
-                                            <label> Descrição: </label>
-                                            <textarea placeholder="Descrição" id="descricaoGrauMaturidade" name="descricaoGrauMaturidade" className="form-control"
-                                                      value = {this.state.descricaoGrauMaturidade} onChange = {this.handleDescricaoGrauMaturidadeChange}  />
+                                            <label htmlFor="descricaoGrauMaturidade"> Descrição: </label>
+                                            < Field
+                                                //  type = "textarea"
+                                                as = "textarea"
+                                                placeholder="Descrição"
+                                                id="descricaoGrauMaturidade"
+                                                name="descricaoGrauMaturidade"
+                                                className="textarea form-control"
+                                            />
+                                            <ErrorMessage name="descricaoGrauMaturidade" render={renderError}/>
                                             <br></br>
                                         </div>
 
                                         <div className = "form-group" >
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label> Pontuação Mínima: </label>
-                                                    <input placeholder="Pontuação Mínima" id="pontuacaoMinimaGrauMaturidade" name="pontuacaoMinimaGrauMaturidade" className="form-control"
-                                                           value = {this.state.pontuacaoMinimaGrauMaturidade} onChange = {this.handlePontuacaoMinimaGrauMaturidadeChange}  />
+                                                    <label htmlFor="pontuacaoMinimaGrauMaturidade"> Pontuação Mínima: </label>
+                                                    <Field
+                                                        type = "number"
+                                                        placeholder="Pontuação Mínima"
+                                                        id="pontuacaoMinimaGrauMaturidade"
+                                                        name="pontuacaoMinimaGrauMaturidade"
+                                                        className="form-control"
+                                                    />
+                                                    <ErrorMessage name="pontuacaoMinimaGrauMaturidade" render={renderError}/>
                                                 </div>
                                                 <div className="col-6">
-                                                    <label> Pontuação Máxima: </label>
-                                                    <input placeholder="Pontuação Máxima" id="pontuacaoMaximaGrauMaturidade" name="pontuacaoMaximaGrauMaturidade" className="form-control"
-                                                           value = {this.state.pontuacaoMaximaGrauMaturidade} onChange = {this.handlePontuacaoMaximaGrauMaturidadeChange}  />
+                                                    <label htmlFor="pontuacaoMaximaGrauMaturidade"> Pontuação Máxima: </label>
+                                                    <Field
+                                                        type = "number"
+                                                        placeholder="Pontuação Máxima"
+                                                        id="pontuacaoMaximaGrauMaturidade"
+                                                        name="pontuacaoMaximaGrauMaturidade"
+                                                        className="form-control"
+                                                    />
+                                                    <ErrorMessage name="pontuacaoMaximaGrauMaturidade" render={renderError}/>
                                                 </div>
                                             </div>
                                             <br></br>
                                         </div>
 
                                         <div className = "form-group">
-                                            <label> Porcentagem (%): </label>
-                                            <input placeholder="Porcentagem" id="porcentagemGrauMaturidade" name="porcentagemGrauMaturidade" className="form-control"
-                                                   value = {this.state.porcentagemGrauMaturidade} onChange = {this.handlePorcentagemGrauMaturidadeChange}  />
+                                            <label htmlFor="porcentagemGrauMaturidade"> Porcentagem (%): </label>
+                                            <Field
+                                                type = "number"
+                                                placeholder="Porcentagem"
+                                                id="porcentagemGrauMaturidade"
+                                                name="porcentagemGrauMaturidade"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage name="porcentagemGrauMaturidade" render={renderError}/>
                                             <br></br>
                                         </div>
 
 
 
-
-                                        <button className="btn btn-success" onClick={this.saveGrauMaturidade}>Salvar</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                </form>
+                                        <button className="btn btn-success" type="submit" onClick={"submit"}>Salvar</button>
+                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
+                                    </Form>
+                                </Formik>
                             </div>
                         </div>
                     </div>

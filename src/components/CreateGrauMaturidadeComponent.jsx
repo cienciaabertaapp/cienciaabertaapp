@@ -10,7 +10,6 @@ class CreateGrauMaturidadeComponent extends Component {
 
     saveGrauMaturidade = (values) => {
 
-        // console.log('grauMaturidade => ' + JSON.stringify(grauMaturidade));
         CienciaAbertaService.createGrauMaturidade(values).then(res =>{
             this.props.history.push('/grau_maturidade_list');
         });
@@ -23,7 +22,7 @@ class CreateGrauMaturidadeComponent extends Component {
         const validations = yup.object().shape({
             nivelGrauMaturidade: yup
                 .string()
-                .min(6,'Nome muito curto!!')
+                .min(4,'Nome muito curto!!')
                 .required('Nome categoria é obrigatório!'),
             descricaoGrauMaturidade: yup
                 .string()
@@ -82,7 +81,7 @@ class CreateGrauMaturidadeComponent extends Component {
                                         <div className = "form-group">
                                             <label htmlFor="descricaoGrauMaturidade"> Descrição: </label>
                                             < Field
-                                              //  type = "textarea"
+                                                as = "textarea"
                                                 placeholder="Descrição"
                                                 id="descricaoGrauMaturidade"
                                                 name="descricaoGrauMaturidade"

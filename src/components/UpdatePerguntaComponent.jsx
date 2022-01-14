@@ -40,7 +40,6 @@ class UpdatePerguntaComponent extends Component {
                 perguntaTipoPergunta: pergunta.perguntaTipoPergunta,
                 respostasPossiveisPergunta: pergunta.respostasPossiveisPergunta
             });
-            console.log(this.state.categoria);
             if (this.state.perguntaTipoPergunta == "TRUE_FALSE") {
                 this.setState({tipoPergunta: "True ou False"});
                 this.setState({mostraAlternativas: false});
@@ -52,7 +51,7 @@ class UpdatePerguntaComponent extends Component {
                 this.setState({tipoAlternativa: true});
                 this.setState({mostraBotaoAlternativas: true});
             }else if (this.state.perguntaTipoPergunta == "SELECAO") {
-                this.setState({tipoPergunta: "Selação"});
+                this.setState({tipoPergunta: "Seleção"});
                 this.setState({mostraAlternativas: true});
                 this.setState({tipoAlternativa: false});
                 this.setState({mostraBotaoAlternativas: true});
@@ -74,10 +73,13 @@ class UpdatePerguntaComponent extends Component {
 
 
     handledescricaoCategoriaPerguntaChange = (event) => {
-        event.preventDefault();
-        console.log(this.state.categorias);
-        this.setState ({categoria: this.state.categorias.find(c => c.id == event.target.value)});
-
+       // event.preventDefault();
+        console.log(event.target.value);
+        if (event.target.value == ""){
+            this.setState ({categoria: ""});
+        }else {
+            this.setState ({categoria: this.state.categorias.find(c => c.id == event.target.value)});
+        }
         console.log(this.state.categoria);
 
 
@@ -85,9 +87,9 @@ class UpdatePerguntaComponent extends Component {
 
     handleperguntaTipoPerguntaChange = (event) => {
         this.setState ({perguntaTipoPergunta: event.target.value});
-        if ((event.target.value == "TRUE_FALSE") || (event.target.value == "ABERTA")){
+        if ((event.target.value == "TRUE_FALSE") || (event.target.value == "ABERTA")|| (event.target.value == "")){
             this.setState({mostraBotaoAlternativas: false});
-            this.setState({respostasPossiveisPergunta: []});
+            this.setState({respostasPossiveisPergunta:[] });
         }else{
             this.setState({mostraBotaoAlternativas: true});
         }
@@ -119,23 +121,30 @@ class UpdatePerguntaComponent extends Component {
 
     savePergunta = (e) => {
         e.preventDefault();
-        console.log("--------------------");
-        console.log(this.state.categoria);
-        console.log("--------------------");
-        let pergunta = {
-            descricaoPergunta: this.state.descricaoPergunta,
-            categoria: this.state.categoria,
-            perguntaTipoPergunta: this.state.perguntaTipoPergunta,
-            respostasPossiveisPergunta: this.state.respostasPossiveisPergunta
+        console.log(this.state.perguntaTipoPergunta);
 
-        };
-        console.log('pergunta => ' + JSON.stringify(pergunta));
+        if ((this.state.descricaoPergunta == "") || (this.state.categoria=="")|| (this.state.perguntaTipoPergunta == "")){
+            this.setState({error:"Preencha todos os campos"});
+        }else {
+            if (((this.state.perguntaTipoPergunta == "ALTERNATIVE") || (this.state.perguntaTipoPergunta == "SELECAO")) && (this.state.respostasPossiveisPergunta == "")) {
 
-        CienciaAbertaService.updatePergunta(this.state.id,pergunta).then(res =>{
-            this.props.history.push('/perguntas_list');
-        });
+                this.setState({error:"O tipo de pergunta exige pelo menos uma alternativa"});
+            } else {
+                let pergunta = {
+                    descricaoPergunta: this.state.descricaoPergunta,
+                    categoria: this.state.categoria,
+                    perguntaTipoPergunta: this.state.perguntaTipoPergunta,
+                    respostasPossiveisPergunta: this.state.respostasPossiveisPergunta
+
+                };
+                console.log('pergunta => ' + JSON.stringify(pergunta));
+
+                CienciaAbertaService.updatePergunta(this.state.id,pergunta).then(res =>{
+                    this.props.history.push('/perguntas_list');
+                });
+            }
+        }
     }
-
 
     cancel(){
         this.props.history.push('/perguntas_list');
@@ -146,8 +155,8 @@ class UpdatePerguntaComponent extends Component {
                 <br></br>
                 <div className = "container">
                     <div className = "row">
-                        <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Pergunta</h3>
-
+                        <div className = "card col-md-10 offset-md-1 offset-md-1"> <h3 className="text-center">Alterar Pergunta</h3>
+                            <p style={{fontSize: "medium", color:"red"}}>{this.state.error}</p>
                             <div className = "card-body">
                                 <form>
                                     <div className = "form-group">
@@ -162,7 +171,7 @@ class UpdatePerguntaComponent extends Component {
                                         <label> Categoria Pergunta: </label>
                                         <select className="form-select" onChange={this.handledescricaoCategoriaPerguntaChange} value={this.state.categoria.id}>
 
-                                            <option value="0" >Selecione a categoria da pergunta</option>
+                                            <option key="0" value= "" >Selecione a categoria da pergunta</option>
                                             {
                                                 this.state.categorias.map( categoria =>
                                                     <option key={categoria.id} value={categoria.id} >

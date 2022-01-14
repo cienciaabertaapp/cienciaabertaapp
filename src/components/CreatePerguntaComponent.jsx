@@ -3,6 +3,7 @@ import CienciaAbertaService from '../services/CienciaAbertaService';
 import { FaTrashAlt,FaRegSave,FaBackspace } from 'react-icons/fa';
 import { BiAddToQueue } from "react-icons/bi";
 import {IconButton} from "@mui/material";
+import {ErrorMessage} from "formik";
 
 
 class CreatePerguntaComponent extends Component {
@@ -12,7 +13,9 @@ class CreatePerguntaComponent extends Component {
         categorias: [],
         categoria: [],
         mostraBotaoAlternativas: false,
-        mostraBotaoApagarAlternativa:false
+        mostraBotaoApagarAlternativa:false,
+        error:'',
+        tipoPergunta:'',
     }
 
     constructor(props) {
@@ -46,8 +49,9 @@ class CreatePerguntaComponent extends Component {
     handleChangeTipoPergunta= (event) =>{
         console.log(event.target.value);
         this.setState ({tipoPergunta: event.target.value});
-        if ((event.target.value == "TRUE_FALSE") || (event.target.value == "ABERTA")){
+        if ((event.target.value == "TRUE_FALSE") || (event.target.value == "ABERTA")|| (event.target.value == "")){
             this.setState({mostraBotaoAlternativas: false});
+            this.setState({alternativas:[] });
         }else{
             this.setState({mostraBotaoAlternativas: true});
         }
@@ -63,21 +67,32 @@ class CreatePerguntaComponent extends Component {
 
     savePergunta = (e) => {
         e.preventDefault();
-        let array_alternativas = this.state.alternativas.map((alternativa,index) => (
-            {"id":index,"descricaoRespostasPossiveis":alternativa}
-         ));
-        let pergunta = {
-            descricaoPergunta: this.state.perguntaDescricao,
-            categoria: this.state.categoria,
-            perguntaTipoPergunta: this.state.tipoPergunta,
-            respostasPossiveisPergunta: array_alternativas
+        console.log(this.state.perguntaDescricao);
+        if ((this.state.perguntaDescricao == "") || (this.state.categoria == "")|| (this.state.tipoPergunta == "")){
+            this.setState({error:"Preencha todos os campos"});
+        }else {
+            if (((this.state.tipoPergunta == "ALTERNATIVE") || (this.state.tipoPergunta == "SELECAO")) && (this.state.alternativas == "")) {
 
-        };
-        console.log('pergunta => ' + JSON.stringify(pergunta));
+                this.setState({error:"O tipo de pergunta exige pelo menos uma alternativa"});
+            } else {
+                this.setState({error:""});
+                let array_alternativas = this.state.alternativas.map((alternativa, index) => (
+                    {"id": index, "descricaoRespostasPossiveis": alternativa}
+                ));
+                let pergunta = {
+                    descricaoPergunta: this.state.perguntaDescricao,
+                    categoria: this.state.categoria,
+                    perguntaTipoPergunta: this.state.tipoPergunta,
+                    respostasPossiveisPergunta: array_alternativas
 
-        CienciaAbertaService.createPergunta(pergunta).then(res =>{
-            this.props.history.push('/perguntas_list');
-        });
+                };
+                console.log('pergunta => ' + JSON.stringify(pergunta));
+
+                CienciaAbertaService.createPergunta(pergunta).then(res => {
+                    this.props.history.push('/perguntas_list');
+                });
+            }
+        }
     }
 
 
@@ -91,8 +106,8 @@ class CreatePerguntaComponent extends Component {
                 <br></br>
                    <div className = "container">
                         <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Adicionar Pergunta</h3>
-
+                            <div className = "card col-md-10 offset-md-1 offset-md-1"> <h3 className="text-center">Adicionar Pergunta</h3>
+                                <p style={{fontSize: "medium", color:"red"}}>{this.state.error}</p>
                                 <div className = "card-body">
                                     <form>
                                         <div className = "form-group">
@@ -112,7 +127,7 @@ class CreatePerguntaComponent extends Component {
                                             <label> Categoria Pergunta: </label>
                                             <select className="form-select" onChange={this.handleChangeCategoriaPergunta}  >
 
-                                                <option value="0" >Selecione a categoria da pergunta</option>
+                                                <option value="" >Selecione a categoria da pergunta</option>
                                                 {
                                                     this.state.categorias.map( categoria =>
                                                             <option key={categoria.id} value={categoria.id} > {categoria.descricaoCategoriaPergunta} </option>

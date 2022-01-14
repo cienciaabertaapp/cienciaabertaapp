@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 class UpdateCategoriaComponent extends Component {
 
@@ -8,12 +10,7 @@ class UpdateCategoriaComponent extends Component {
         super(props)
             this.state = {
                 id: this.props.match.params.id,
-                descricaoCategoriaPergunta: '',
-                pontosPossiveisCategoriaPergunta:''
             }
-            this.handleNomeCategoriaChange = this.handleNomeCategoriaChange.bind(this);
-            this.handlePontosPossiveisCategoriaPerguntaChange= this.handlePontosPossiveisCategoriaPerguntaChange.bind(this);
-
     }
 
     componentDidMount(){
@@ -25,30 +22,13 @@ class UpdateCategoriaComponent extends Component {
                 pontosPossiveisCategoriaPergunta: categoria.pontosPossiveisCategoriaPergunta
             });
 
-           // console.log(categoria.descricaoCategoriaPergunta);
         });
 
     }
 
 
-
-    handleNomeCategoriaChange = (event) => {
-        this.setState ({descricaoCategoriaPergunta: event.target.value});
-    }
-
-    handlePontosPossiveisCategoriaPerguntaChange = (event) => {
-        this.setState ({pontosPossiveisCategoriaPergunta: event.target.value});
-    }
-
-    saveCategoria = (e) => {
-        e.preventDefault();
-        let categoria = {
-            descricaoCategoriaPergunta: this.state.descricaoCategoriaPergunta,
-            pontosPossiveisCategoriaPergunta: this.state.pontosPossiveisCategoriaPergunta
-        };
-        console.log('categoriaPergunta => ' + JSON.stringify(categoria));
-
-        CienciaAbertaService.updateCategoria(this.state.id,categoria).then(res =>{
+    saveCategoria = (values) => {
+        CienciaAbertaService.updateCategoria(this.state.id,values).then(res =>{
             this.props.history.push('/categoria_list');
         });
     }
@@ -58,27 +38,65 @@ class UpdateCategoriaComponent extends Component {
         this.props.history.push('/categoria_list');
     }
     render() {
+        const validations = yup.object().shape({
+            descricaoCategoriaPergunta: yup
+                .string()
+                .min(6,'Nome muito curto!!')
+                .required('Nome categoria é obrigatório!'),
+            pontosPossiveisCategoriaPergunta: yup
+                .number()
+                .positive('Número deve ser positivo')
+                .integer("Inteiro")
+                .required('Campo obrigatório!'),
+        });
+
+        const initialValues = {
+            descricaoCategoriaPergunta: this.state.descricaoCategoriaPergunta,
+            pontosPossiveisCategoriaPergunta: this.state.pontosPossiveisCategoriaPergunta,
+            error: "",
+        };
+
+        const renderError = (message) => <p style={{fontSize: "small", color:"red"}}>{message}</p>;
+
+
         return (
                         <div className = "row">
                             <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Categoria</h3>
 
                                 <div className = "card-body">
-                                    <form>
-                                        <div className = "form-group">
-                                            <label> Descrição Categoria: </label>
-                                            <input placeholder="Descrição Categoria" id="descricaoCategoriaPergunta" name="descricaoCategoriaPergunta" className="form-control"
-                                                   value = {this.state.descricaoCategoriaPergunta} onChange = {this.handleNomeCategoriaChange}  />
-                                        </div>
+                                    <Formik enableReinitialize initialValues={initialValues} onSubmit={this.saveCategoria} validationSchema={validations}>
+                                        <Form className="form">
+                                            <div className = "form-group">
+                                                <label htmlFor="descricaoCategoriaPergunta"> Nome Categoria: </label>
+                                                <Field
+                                                    type= "text"
+                                                    placeholder="Nome Categoria"
+                                                    id="descricaoCategoriaPergunta"
+                                                    name="descricaoCategoriaPergunta"
+                                                    className="form-control"
+                                                />
+                                                <ErrorMessage name="descricaoCategoriaPergunta" render={renderError}/>
+                                                <br></br>
+                                            </div>
 
-                                        <div className = "form-group">
-                                            <label> Pontos Possíveis Categoria: </label>
-                                            <input placeholder="Pontos Possíveis" id="pontosPossiveisCategoriaPergunta" name="pontosPossiveisCategoriaPergunta" className="form-control"
-                                                   value = {this.state.pontosPossiveisCategoriaPergunta} onChange = {this.handlePontosPossiveisCategoriaPerguntaChange}  />
-                                        </div>
+                                            <div className = "form-group">
+                                                <label htmlFor="pontosPossiveisCategoriaPergunta"> Pontos Possíveis Categoria (%): </label>
+                                                <Field
+                                                    type= "number"
+                                                    placeholder="Pontos Possíveis"
+                                                    id="pontosPossiveisCategoriaPergunta"
+                                                    name="pontosPossiveisCategoriaPergunta"
+                                                    className="form-control"
+                                                />
+                                                <ErrorMessage name="pontosPossiveisCategoriaPergunta" render={renderError}/>
+                                                <br></br>
+                                            </div>
 
-                                        <button className="btn btn-success" onClick={this.saveCategoria}>Salvar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
+
+                                            <button className="btn btn-success" type="submit" onClick={"submit"}>Salvar</button>
+                                            <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
+                                        </Form>
+                                    </Formik>
                                 </div>
                             </div>
                         </div>

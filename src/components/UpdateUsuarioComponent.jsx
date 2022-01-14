@@ -2,6 +2,8 @@ import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import {recuperaId} from "../dadosGlobais";
+import * as yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 class UpdateUsuarioComponent extends Component {
 
@@ -9,25 +11,15 @@ class UpdateUsuarioComponent extends Component {
         super(props)
             this.state = {
                 id: this.props.match.params.id,
-                nomeUsuario: '',
-                emailUsuario: '',
-                instituicaoUsuario: '',
-                ocupacaoUsuario: '',
-                permissaoDivulgacaoDadosUsuario: ''
             }
-
-            this.handleNomeUsuarioChange = this.handleNomeUsuarioChange.bind(this);
-            this.handleEmailUsuarioChange = this.handleEmailUsuarioChange.bind(this);
-            this.handleInstituicaoUsuarioChange = this.handleInstituicaoUsuarioChange.bind(this);
-            this.handleOcupacaoUsuarioChange = this.handleOcupacaoUsuarioChange.bind(this);
-            this.handlerPermissaoDivulgacaoDadosUsuarioChange = this.handlerPermissaoDivulgacaoDadosUsuarioChange.bind(this);
 
     }
 
     componentDidMount(){
         CienciaAbertaService.buscaUsuario(this.state.id).then( (res) =>{
             let usuario = res.data;
-            this.setState({nomeUsuario: usuario.nomeUsuario,
+            this.setState({
+                nomeUsuario: usuario.nomeUsuario,
                 emailUsuario: usuario.emailUsuario,
                 instituicaoUsuario: usuario.instituicaoUsuario,
                 ocupacaoUsuario: usuario.ocupacaoUsuario,
@@ -37,45 +29,50 @@ class UpdateUsuarioComponent extends Component {
     }
 
 
-    saveUsuario = (e) => {
-        e.preventDefault();
-        let usuario = {
-             nomeUsuario: this.state.nomeUsuario,
-             emailUsuario: this.state.emailUsuario,
-             instituicaoUsuario: this.state.instituicaoUsuario,
-             ocupacaoUsuario: this.state.ocupacaoUsuario,
-             permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario};
-      //  console.log('usuario => ' + JSON.stringify(usuario));
-       // recuperaId(this.state.id);
-        CienciaAbertaService.updateUsuario(this.state.id,usuario).then(res =>{
-          //  this.props.idUsuario = this.state.id;
-
-            this.props.history.push('/');
+    saveUsuario = (values) => {
+        CienciaAbertaService.updateUsuario(this.state.id,values).then(res =>{
+            this.props.history.push('/usuario_list/');
         });
-    }
-
-
-
-    handleNomeUsuarioChange = (event) => {
-        this.setState ({nomeUsuario: event.target.value});
-    }
-    handleEmailUsuarioChange = (event) => {
-        this.setState ({emailUsuario: event.target.value});
-    }
-    handleInstituicaoUsuarioChange = (event) => {
-        this.setState ({instituicaoUsuario: event.target.value});
-    }
-    handleOcupacaoUsuarioChange = (event) => {
-        this.setState ({ocupacaoUsuario: event.target.value});
-    }
-    handlerPermissaoDivulgacaoDadosUsuarioChange= (event) => {
-        this.setState({permissaoDivulgacaoDadosUsuario: event.target.value});
     }
 
     cancel(){
         this.props.history.push('/');
     }
     render() {
+
+        const validations = yup.object().shape({
+            nomeUsuario: yup
+                .string()
+                .min(6,'Nome muito curto!!')
+                .required('Email é um campo obrigatório!'),
+            emailUsuario: yup
+                .string()
+                .email('Coloque um email válido!!')
+                .required('Email é um campo obrigatório!'),
+            instituicaoUsuario: yup
+                .string()
+                .min(3,'Inválido.')
+                .required('Campo obrigatório!'),
+            ocupacaoUsuario: yup
+                .string()
+                .min(3,'Inválido.')
+                .required('Campo obrigatório!'),
+            permissaoDivulgacaoDadosUsuario: yup
+                .boolean()
+                .required('Campo obrigatório!'),
+
+        });
+        const initialValues = {
+            nomeUsuario: this.state.nomeUsuario,
+            emailUsuario: this.state.emailUsuario,
+            instituicaoUsuario: this.state.instituicaoUsuario,
+            ocupacaoUsuario: this.state.ocupacaoUsuario,
+            permissaoDivulgacaoDadosUsuario: this.state.permissaoDivulgacaoDadosUsuario,
+            error:"",
+        };
+
+        const renderError = (message) => <p style={{fontSize: "small", color:"red"}}>{message}</p>;
+
         return (
             <div>
                 <br></br>
@@ -84,51 +81,98 @@ class UpdateUsuarioComponent extends Component {
                             <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Usuário</h3>
 
                                 <div className = "card-body">
-                                    <form>
-                                        <div className = "form-group">
-                                            <label> Nome Completo: </label>
-                                            <input placeholder="Nome Completo" id="nomeUsuario" name="nomeUsuario" className="form-control"
-                                                   value = {this.state.nomeUsuario} onChange = {this.handleNomeUsuarioChange}  />
-                                        </div>
+                                    <Formik enableReinitialize initialValues={initialValues} onSubmit={this.saveUsuario} validationSchema={validations}>
+                                        <Form className="form">
+                                            <div className="formField">
+                                                <label htmlFor="nomeUsuario"> Nome Completo: </label>
+                                                <Field
+                                                    type= "text"
+                                                    placeholder="Nome"
+                                                    name="nomeUsuario"
+                                                    id="nomeUsuario"
+                                                    className="form-control"
+                                                    // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                                />
+                                                <ErrorMessage name="nomeUsuario" render={renderError}/>
+                                            </div>
 
-                                        <div className = "form-group">
-                                            <label> Email: </label>
-                                            <input placeholder="Email" id="emailUsuario" name="emailUsuario" className="form-control"
-                                                   value={this.state.emailUsuario} onChange={this.handleEmailUsuarioChange}/>
-                                        </div>
+                                            <div className="formField">
+                                                <label htmlFor="emailUsuario"> Email: </label>
+                                                <Field
+                                                    type= "text"
+                                                    placeholder="Email"
+                                                    name="emailUsuario"
+                                                    id="emailUsuario"
+                                                    className="form-control"
+                                                    // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                                />
 
-                                        <div className = "form-group">
-                                            <label> Instituição: </label>
-                                            <input placeholder="Instituição" id="instituicaoUsuario" name="instituicaoUsuario" className="form-control"
-                                                   value={this.state.instituicaoUsuario} onChange={this.handleInstituicaoUsuarioChange} />
-                                        </div>
+                                                <ErrorMessage name="emailUsuario" render={renderError}/>
+                                            </div>
 
-                                        <div className = "form-group">
-                                            <label> Ocupação: </label>
-                                            <input placeholder="Ocupação" id="ocupacaoUsuario" name="ocupacaoUsuario" className="form-control"
-                                                   value={this.state.ocupacaoUsuario} onChange={this.handleOcupacaoUsuarioChange} />
-                                        </div>
+                                            <div className="formField">
+                                                <label htmlFor="instituicaoUsuario"> Instituição: </label>
+                                                <Field
+                                                    type= "text"
+                                                    placeholder="Instituição"
+                                                    name="instituicaoUsuario"
+                                                    id="instituicaoUsuario"
+                                                    className="form-control"
+                                                    // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                                />
+
+                                                <ErrorMessage name="instituicaoUsuario" render={renderError}/>
+                                            </div>
+
+                                            <div className="formField">
+                                                <label htmlFor="ocupacaoUsuario"> Ocupação: </label>
+                                                <Field
+                                                    type= "text"
+                                                    placeholder="Ocupação"
+                                                    name="ocupacaoUsuario"
+                                                    id="ocupacaoUsuario"
+                                                    className="form-control"
+                                                    // onChange={e => this.setState({ emailUsuario: e.target.value })}
+                                                />
+
+                                                <ErrorMessage name="ocupacaoUsuario" render={renderError}/>
+                                            </div>
+
+                                            <div className = "form-group">
+                                                <label htmlFor="permissaoDivulgacaoDadosUsuario"> Permissão para divulgação de dados: </label><br></br>
+                                                <tbody><tr>
+                                                    <td width="50%">
+                                                        <Field
+                                                            type="radio"
+                                                            placeholder="Permissão divulgação"
+                                                            id="permissaoDivulgacaoDadosUsuarioTrue"
+                                                            name="permissaoDivulgacaoDadosUsuario"
+                                                            value="true"
+                                                            // onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange}
+                                                        /> SIM
+                                                    </td>
+                                                    <td width="50%">
+                                                        <Field
+                                                            type="radio"
+                                                            placeholder="Permissão divulgação"
+                                                            id="permissaoDivulgacaoDadosUsuarioFalse"
+                                                            name="permissaoDivulgacaoDadosUsuario"
+                                                            value="false"
+                                                            // onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange}
+                                                        /> NÃO
 
 
-                                        <div className = "form-group">
-                                            <label> Permissão para divulgação de dados: </label><br></br>
-                                            <tbody><tr>
-                                                <td width="50%">
-                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuario"
-                                                           name="permissaoDivulgacaoDadosUsuario" value="true" onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange} checked={this.state.permissaoDivulgacaoDadosUsuario == "true"}/> SIM
-                                                </td>
-                                                <td width="50%">
-                                                    <input type="radio" placeholder="Permissão divulgação" id="permissaoDivulgacaoDadosUsuario"
-                                                           name="permissaoDivulgacaoDadosUsuario" value="false" onChange={this.handlerPermissaoDivulgacaoDadosUsuarioChange} checked={this.state.permissaoDivulgacaoDadosUsuario  == "false"}  /> NÃO
-                                                </td>
-                                            </tr></tbody>
-                                            <br></br>
-                                        </div>
+                                                    </td>
+                                                </tr></tbody>
+                                                <ErrorMessage name="permissaoDivulgacaoDadosUsuario" render={renderError}/>
+                                                <br></br>
+                                            </div>
 
 
-                                        <button className="btn btn-success" onClick={this.saveUsuario}>Salvar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
+                                            <button className="btn btn-success" type="submit" onClick={"submit"}>Salvar</button>
+                                            <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
+                                        </Form>
+                                    </Formik>
                                 </div>
                             </div>
                         </div>
