@@ -5,6 +5,7 @@ import axios from "axios";
 import ListUserComponent from "./ListUserComponent";
 import UpdateCategoriaComponent from "./UpdateCategoriaComponent";
 import CreateUsuarioComponent from "./CreateUsuarioComponent";
+import {verificaRota} from "../auth";
 
 class ListCategoriaComponent extends Component {
 
@@ -35,6 +36,7 @@ class ListCategoriaComponent extends Component {
 
 
     componentDidMount(){
+        verificaRota();
         CienciaAbertaService.listCategoria().then((res) => {
             this.setState({ categorias: res.data});
         });

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import {Link} from "react-router-dom";
 import {BiAddToQueue} from "react-icons/bi";
 import {findAllByTitle} from "@testing-library/react";
+import {Form} from "formik";
 
 class ViewPesquisaUsuarioComponent extends Component {
 
@@ -25,7 +26,6 @@ class ViewPesquisaUsuarioComponent extends Component {
 
             });
 
-            console.log(pes.data.grauMaturidadeUsuario.nivelGrauMaturidade);
         });
         CienciaAbertaService.listPerguntas().then((res) => {
             this.setState({perguntas: res.data});
@@ -33,14 +33,8 @@ class ViewPesquisaUsuarioComponent extends Component {
     }
 
 
-    editaUsuario (id){
-        // console.log("teste",id);
-        //  console.log('/usuario_edit/'+id);
-        //  this.props.history.push("/usuario_edit/"+id);
-    }
-
     cancel(){
-        this.props.history.push('/perguntas_list');
+        this.props.history.push('/');
     }
     render() {
         return (
@@ -48,7 +42,8 @@ class ViewPesquisaUsuarioComponent extends Component {
                 <br></br>
                 <div className = "container">
                     <div className = "row">
-                        <div className = "card col-md-12 offset-md-0 offset-md-0"> <h3 className="text-center">Minha Pesquisa</h3>
+                        <br></br>
+                        <div className = "card col-md-12 offset-md-0 offset-md-0"> <h3 className="text-center">Pesquisa {this.state.pesquisa.instituicaoUsuario}</h3>
 
                            <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
                             <b>  Nível Maturidade Instituição:</b> {this.state.nivelMaturidade}
@@ -98,8 +93,8 @@ class ViewPesquisaUsuarioComponent extends Component {
                                         )
                                     }
 
-
-
+<br></br>
+                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
                                     </tbody>
                                 </table>
                             </div>

@@ -4,9 +4,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage} from "formik";
 import {TextField} from "@mui/material";
+import {verificaRota} from "../auth";
 
 class CreateGrauMaturidadeComponent extends Component {
 
+    componentDidMount() {
+        verificaRota();
+    }
 
     saveGrauMaturidade = (values) => {
 
@@ -30,7 +34,6 @@ class CreateGrauMaturidadeComponent extends Component {
                 .required('Nome categoria é obrigatório!'),
             pontuacaoMinimaGrauMaturidade: yup
                 .number()
-                .positive('Número deve ser positivo')
                 .integer("Inteiro")
                 .required('Campo obrigatório!'),
             pontuacaoMaximaGrauMaturidade: yup
@@ -41,7 +44,6 @@ class CreateGrauMaturidadeComponent extends Component {
             porcentagemGrauMaturidade: yup
                 .number()
                 .positive('Número deve ser positivo')
-                .integer("Inteiro")
                 .required('Campo obrigatório!'),
         });
 
@@ -94,7 +96,7 @@ class CreateGrauMaturidadeComponent extends Component {
                                         <div className = "form-group" >
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label htmlFor="pontuacaoMinimaGrauMaturidade"> Pontuação Mínima: </label>
+                                                    <label htmlFor="pontuacaoMinimaGrauMaturidade"> Pontuação Mínima(%): </label>
                                                     <Field
                                                         type = "number"
                                                         placeholder="Pontuação Mínima"
@@ -105,7 +107,7 @@ class CreateGrauMaturidadeComponent extends Component {
                                                     <ErrorMessage name="pontuacaoMinimaGrauMaturidade" render={renderError}/>
                                                 </div>
                                                 <div className="col-6">
-                                                    <label htmlFor="pontuacaoMaximaGrauMaturidade"> Pontuação Máxima: </label>
+                                                    <label htmlFor="pontuacaoMaximaGrauMaturidade"> Pontuação Máxima(%): </label>
                                                     <Field
                                                         type = "number"
                                                         placeholder="Pontuação Máxima"

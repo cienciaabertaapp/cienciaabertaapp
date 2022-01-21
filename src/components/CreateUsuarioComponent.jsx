@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage} from "formik";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {Grid} from "@mui/material";
+import {verificaRota} from "../auth";
 
 class CreateUsuarioComponent extends Component {
 
@@ -11,7 +12,7 @@ class CreateUsuarioComponent extends Component {
     };
 
     saveUsuario = (values) => {
-        console.log(values);
+       // console.log(values);
         if (!values ) {
             this.setState({ error: "Preencha todos os dados para se cadastrar" });
         } else {

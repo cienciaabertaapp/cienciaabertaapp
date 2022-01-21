@@ -22,6 +22,9 @@ class MenuAdminComponent extends Component {
         super(props)
         this.state = {
             mostraCategorias:false,
+            mostraGlossario:false,
+            mostraApresentacao:false,
+            mostraReferencias:false,
             mostraPerguntas:false,
             mostraGrauMaturidade:false,
             mostraUsuarios:false
@@ -35,6 +38,32 @@ class MenuAdminComponent extends Component {
             this.setState({mostraCategorias: true});
         }
     }
+
+
+    handleMostraGlossario = (e) =>{
+        if (this.state.mostraGlossario){
+            this.setState({mostraGlossario: false});
+        }else{
+            this.setState({mostraGlossario: true});
+        }
+    }
+
+    handleMostraApresentacao = (e) =>{
+        if (this.state.mostraApresentacao){
+            this.setState({mostraApresentacao: false});
+        }else{
+            this.setState({mostraApresentacao: true});
+        }
+    }
+
+    handleMostraReferencias = (e) =>{
+        if (this.state.mostraReferencias){
+            this.setState({mostraReferencias: false});
+        }else{
+            this.setState({mostraReferencias: true});
+        }
+    }
+
 
     handlemostraPerguntas = (e) =>{
         if (this.state.mostraPerguntas){
@@ -130,6 +159,63 @@ class MenuAdminComponent extends Component {
                         :null
                     }
                     <hr></hr>
+
+
+
+
+
+            <a onClick={this.handleMostraGlossario}>
+                <div style={{marginLeft: "10px"}}> <BsFillJournalBookmarkFill /> Glossário
+                    <label style={{marginLeft: "43%"}}>
+                        { this.state.mostraGlossario ? <BsCaretUp/>:  <BsCaretDown/>}
+                    </label></div> </a>
+            { this.state.mostraGlossario ?
+                <>
+                    <br></br>
+                    <Link to='/glossario/' style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Cadastrar Glossário  </div> </Link>
+                    <br></br>
+                    <Link to="/glossario_list/" style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Visualizar Glossário  </div></Link>
+                </>
+                : null
+            }
+
+            <hr></hr>
+
+            <a onClick={this.handleMostraApresentacao}>
+                <div style={{marginLeft: "10px"}}> <BsFillJournalBookmarkFill /> Apresentação
+                    <label style={{marginLeft: "28%"}}>
+                        { this.state.mostraApresentacao ? <BsCaretUp/>:  <BsCaretDown/>}
+                    </label></div> </a>
+            { this.state.mostraApresentacao ?
+                <>
+                    <br></br>
+                    <Link to='/apresentacao/' style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Cadastrar Apresentação </div> </Link>
+                    <br></br>
+                    <Link to="/apresentacao_list/" style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Visualizar Apresentação  </div></Link>
+                </>
+                : null
+            }
+
+            <hr></hr>
+
+
+            <a onClick={this.handleMostraReferencias}>
+                <div style={{marginLeft: "10px"}}> <BsFillJournalBookmarkFill /> Referências
+                    <label style={{marginLeft: "35%"}}>
+                        { this.state.mostraReferencias ? <BsCaretUp/>:  <BsCaretDown/>}
+                    </label></div> </a>
+            { this.state.mostraReferencias ?
+                <>
+                    <br></br>
+                    <Link to='/referencias/' style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Cadastrar Referências </div> </Link>
+                    <br></br>
+                    <Link to="/referencias_list/" style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Visualizar Referências  </div></Link>
+                </>
+                : null
+            }
+
+            <hr></hr>
+
 
 
             <div style={{marginLeft: "10px"}}>

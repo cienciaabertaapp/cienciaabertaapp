@@ -3,8 +3,13 @@ import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage} from "formik";
+import {verificaRota} from "../auth";
 
 class CreateCategoriaComponent extends Component {
+
+    componentDidMount() {
+        verificaRota();
+    }
 
     saveCategoria  = (values) => {
         if (!values ) {

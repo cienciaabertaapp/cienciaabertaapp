@@ -1,9 +1,10 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
-import {recuperaId} from "../dadosGlobais";
+import {getUsuario, recuperaId} from "../dadosGlobais";
 import * as yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import {parseJwt} from "../auth";
 
 class UpdateUsuarioComponent extends Component {
 
@@ -31,7 +32,13 @@ class UpdateUsuarioComponent extends Component {
 
     saveUsuario = (values) => {
         CienciaAbertaService.updateUsuario(this.state.id,values).then(res =>{
-            this.props.history.push('/usuario_list/');
+            //console.log(values.permissaoDivulgacaoDadosUsuario);
+           // CienciaAbertaService.updateDivulgaResposta(this.state.id, values.permissaoDivulgacaoDadosUsuario);
+
+            if (parseJwt() == "ADMIN")
+               this.props.history.push('/usuario_list/');
+            else
+                this.props.history.push("/pesquisa_usuario/"+ this.state.id);
         });
     }
 

@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import {verificaRota} from "../auth";
 
 class ListUserComponent extends Component {
 
@@ -28,12 +29,12 @@ class ListUserComponent extends Component {
     }
 
     editUsuario(id){
-        //console.log(id);
         this.props.history.push('/usuario_edit/'+id);
     }
 
 
     componentDidMount(){
+        verificaRota();
         CienciaAbertaService.listUsuarios().then((res) => {
             this.setState({ usuarios: res.data});
         });

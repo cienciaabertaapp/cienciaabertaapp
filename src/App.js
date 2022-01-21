@@ -35,6 +35,18 @@ import RulesAdmin from "./contexts/MyAdmin";
 import {CIENCIAABERTA_API_BASE_URL} from "./services/CienciaAbertaService";
 import MenuUserComponent from "./components/MenuUserComponent";
 import ViewPesquisaUsuarioComponent from "./components/ViewPesquisaUsuarioComponent";
+import CreateApresentacaoComponent from "./components/CreateApresentacaoComponent";
+import CreateGlossarioComponent from "./components/CreateGlossarioComponent";
+import UpdateGlossarioComponent from "./components/UpdateGlossarioComponent";
+import ListGlossarioComponent from "./components/ListGlossarioComponent";
+import UpdateApresentacaoComponent from "./components/UpdateApresentacaoComponent";
+import ListApresentacaoComponent from "./components/ListApresentacaoComponent";
+import CreateReferenciasComponent from "./components/CreateReferenciasComponent";
+import UpdateReferenciasComponent from "./components/UpdateReferenciasComponent";
+import ListReferenciasComponent from "./components/ListReferenciasComponent";
+import ListReferenciasInicialComponent from "./components/ListReferenciasInicialComponent";
+import ListGlossarioInicialComponent from "./components/ListGlossarioInicialComponent";
+import ListApresentacaoInicialComponent from "./components/ListApresentacaoInicialComponent";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -42,7 +54,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         isAuthenticated() ? (
             <Component {...props} />
         ) : (
-            // eslint-disable-next-line react/jsx-no-undef
             <Redirect to={{ pathname: "/user_login", state: { from: props.location } }} />
         )
     }
@@ -74,9 +85,13 @@ function App() {
                     <Grid item xs={10}>
                         <Switch>
                             <Route  exact path = "/" component = {DefaultComponent}></Route>
+                            <Route path = "/referencias_inicial" component = {ListReferenciasInicialComponent}></Route>
+                            <Route path = "/glossario_inicial" component = {ListGlossarioInicialComponent}></Route>
+                            <Route path = "/apresentacao_inicial" component = {ListApresentacaoInicialComponent}></Route>
                             <Route path = "/user_login" component = {LoginUsuarioComponent}></Route>
                             <Route path = "/usuario" component = {CreateUsuarioComponent}></Route>
-                            <PrivateRoute path = "/usuario_edit/:id" component = {UpdateUsuarioComponent}></PrivateRoute>
+                            <Route path = "/pesquisa_usuario/:id" component = {ViewPesquisaUsuarioComponent}></Route>
+                            <PrivateRoute path = "/usuario_edit/:id" component = {UpdateUsuarioComponent} ></PrivateRoute>
                             <PrivateRoute path = "/usuario_view/:id" component = {ViewUsuarioComponent}></PrivateRoute>
                             <PrivateRoute path = "/usuario_list" component = {ListUserComponent}></PrivateRoute>
                             <PrivateRoute path = "/categoria" component = {CreateCategoriaComponent}></PrivateRoute>
@@ -90,10 +105,20 @@ function App() {
                             <PrivateRoute path = "/grau_maturidade" component = {CreateGrauMaturidadeComponent}></PrivateRoute>
                             <PrivateRoute path = "/grau_maturidade_edit/:id" component = {UpdateGrauMaturidadeComponent}></PrivateRoute>
                             <PrivateRoute path = "/grau_maturidade_list" component = {ListGrauMaturidadeComponent}></PrivateRoute>
-                            <PrivateRoute path = "/pesquisa_usuario/:id" component = {ViewPesquisaUsuarioComponent}></PrivateRoute>
+                            <PrivateRoute path = "/glossario" component = {CreateGlossarioComponent}></PrivateRoute>
+                            <PrivateRoute path = "/glossario_edit/:id" component = {UpdateGlossarioComponent}></PrivateRoute>
+                            <PrivateRoute path = "/glossario_list" component = {ListGlossarioComponent}></PrivateRoute>
+                            <PrivateRoute path = "/apresentacao" component = {CreateApresentacaoComponent}></PrivateRoute>
+                            <PrivateRoute path = "/apresentacao_edit/:id" component = {UpdateApresentacaoComponent}></PrivateRoute>
+                            <PrivateRoute path = "/apresentacao_list" component = {ListApresentacaoComponent}></PrivateRoute>
+                            <PrivateRoute path = "/referencias" component = {CreateReferenciasComponent}></PrivateRoute>
+                            <PrivateRoute path = "/referencias_edit/:id" component = {UpdateReferenciasComponent}></PrivateRoute>
+                            <PrivateRoute path = "/referencias_list" component = {ListReferenciasComponent}></PrivateRoute>
+
+
+
+
                             <Route component={NotFound}></Route>
-                            {/* <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
-                          <Route path = "/update-employee/:id" component = {UpdateEmployeeComponent}></Route> */}
                         </Switch>
                     </Grid>
                 </Grid>

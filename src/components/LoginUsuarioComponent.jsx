@@ -27,12 +27,10 @@ class LoginUsuarioComponent extends Component {
             try {
                 const response = await CienciaAbertaService.loginUsuario(conversao);
                 let tipoUsuario = login(response.data.access_token);
-                console.log(tipoUsuario);
                 if (tipoUsuario == "ADMIN"){
-                    window.location.href = "usuario_list";
+                    window.location.href = "/usuario_list/";
                 }else{
                     CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
-                       // console.log(res.data.id);
                         usuario(res.data.id);
                         window.location.href = "/usuario_edit/"+ res.data.id;
                     });

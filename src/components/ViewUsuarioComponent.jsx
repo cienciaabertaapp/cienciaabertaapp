@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import {Link} from "react-router-dom";
+import {verificaRota} from "../auth";
 
 class ViewUsuarioComponent extends Component {
 
@@ -14,7 +15,7 @@ class ViewUsuarioComponent extends Component {
     }
 
     componentDidMount(){
-
+        verificaRota();
         CienciaAbertaService.buscaUsuario(this.state.id).then( (res) =>{
             let usuario = res.data;
             this.setState({nomeUsuario: usuario.nomeUsuario,
@@ -31,13 +32,6 @@ class ViewUsuarioComponent extends Component {
             }
        });
  }
-
-
-    editaUsuario (id){
-       // console.log("teste",id);
-      //  console.log('/usuario_edit/'+id);
-      //  this.props.history.push("/usuario_edit/"+id);
-    }
 
     cancel(){
         this.props.history.push('/usuario_list');

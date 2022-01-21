@@ -12,7 +12,7 @@ import CreateUsuarioComponent from "./CreateUsuarioComponent";
 import ListUserComponent from "./ListUserComponent";
 import UpdateCategoriaComponent from "./UpdateCategoriaComponent";
 import DefaultComponent from "./DefaultComponent";
-import {Button} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 
 class MenuComponent extends Component {
     constructor(props) {
@@ -24,19 +24,29 @@ class MenuComponent extends Component {
     render() {
         return (
             <div>
-                <br></br>
-                <br></br>
-                <Button variant="outlined" fullWidth="100%"><Link to='/' style={{ textDecoration: 'none', color:'black' }}> Início </Link></Button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                 <Button variant="outlined" fullWidth="100%"><Link to='/usuario' style={{ textDecoration: 'none', color:'black' }}> Cadastrar </Link></Button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <Button variant="outlined" fullWidth="100%"><Link to='/user_login' style={{ textDecoration: 'none', color:'black' }}> Login </Link></Button>
+<br></br>
+                <Grid
+                    xs={10}
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="stretch"
+                    rowSpacing={3}
+                >
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/' style={{ textDecoration: 'none', color:'black' }}> Início </Link> </Button></Grid>
+
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/apresentacao_inicial' style={{ textDecoration: 'none', color:'black' }}> Apresentação </Link></Button> </Grid>
+
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/usuario' style={{ textDecoration: 'none', color:'black' }}> Cadastrar </Link></Button> </Grid>
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/user_login' style={{ textDecoration: 'none', color:'black' }}> Login </Link></Button> </Grid>
+
+
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/glossario_inicial' style={{ textDecoration: 'none', color:'black' }}> Glossário </Link></Button> </Grid>
+
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/referencias_inicial' style={{ textDecoration: 'none', color:'black' }}> Referências </Link></Button> </Grid>
+
+                </Grid>
+
                 </div>
 
         )

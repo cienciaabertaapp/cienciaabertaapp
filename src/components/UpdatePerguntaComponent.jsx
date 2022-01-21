@@ -3,6 +3,7 @@ import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import {BiAddToQueue} from "react-icons/bi";
 import {FaTrashAlt} from "react-icons/fa";
+import {verificaRota} from "../auth";
 
 class UpdatePerguntaComponent extends Component {
 
@@ -27,7 +28,7 @@ class UpdatePerguntaComponent extends Component {
     }
 
     componentDidMount(){
-
+        verificaRota();
         CienciaAbertaService.listCategoria().then((res) => {
             this.setState({ categorias: res.data});
         });
@@ -73,16 +74,11 @@ class UpdatePerguntaComponent extends Component {
 
 
     handledescricaoCategoriaPerguntaChange = (event) => {
-       // event.preventDefault();
-        console.log(event.target.value);
         if (event.target.value == ""){
             this.setState ({categoria: ""});
         }else {
             this.setState ({categoria: this.state.categorias.find(c => c.id == event.target.value)});
         }
-        console.log(this.state.categoria);
-
-
     }
 
     handleperguntaTipoPerguntaChange = (event) => {
@@ -115,13 +111,11 @@ class UpdatePerguntaComponent extends Component {
     handleRemoveInputAlternativa = (e,position) => {
         e.preventDefault();
         this.setState({respostasPossiveisPergunta:[...this.state.respostasPossiveisPergunta.filter((_,index) => index != position)] });
-        //console.log(this.state.alternativas);
 
     }
 
     savePergunta = (e) => {
         e.preventDefault();
-        console.log(this.state.perguntaTipoPergunta);
 
         if ((this.state.descricaoPergunta == "") || (this.state.categoria=="")|| (this.state.perguntaTipoPergunta == "")){
             this.setState({error:"Preencha todos os campos"});
@@ -137,8 +131,6 @@ class UpdatePerguntaComponent extends Component {
                     respostasPossiveisPergunta: this.state.respostasPossiveisPergunta
 
                 };
-                console.log('pergunta => ' + JSON.stringify(pergunta));
-
                 CienciaAbertaService.updatePergunta(this.state.id,pergunta).then(res =>{
                     this.props.history.push('/perguntas_list');
                 });

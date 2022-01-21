@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import {verificaRota} from "../auth";
 
 class ListGrauMaturidadeComponent extends Component {
 
@@ -30,6 +31,7 @@ class ListGrauMaturidadeComponent extends Component {
     }
 
     componentDidMount(){
+        verificaRota();
         CienciaAbertaService.listGrauMaturidade().then((res) => {
             this.setState({ grausMaturidade: res.data});
         });
@@ -68,7 +70,7 @@ class ListGrauMaturidadeComponent extends Component {
                                         <tr key = {grauMaturidade.id}>
                                             <td width='15%'> { grauMaturidade.nivelGrauMaturidade} </td>
                                             <td width='38%'> { grauMaturidade.descricaoGrauMaturidade}</td>
-                                            <td width='15%'> { grauMaturidade.pontuacaoMinimaGrauMaturidade} - {grauMaturidade.pontuacaoMaximaGrauMaturidade}</td>
+                                            <td width='15%'> { grauMaturidade.pontuacaoMinimaGrauMaturidade}% - {grauMaturidade.pontuacaoMaximaGrauMaturidade}%</td>
                                             <td width='15%'> { grauMaturidade.porcentagemGrauMaturidade} %</td>
                                             <td>
                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.editGrauMaturidade(grauMaturidade.id)} className="btn btn-info">Atualizar </button>

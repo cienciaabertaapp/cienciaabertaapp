@@ -4,6 +4,7 @@ import { FaTrashAlt,FaRegSave,FaBackspace } from 'react-icons/fa';
 import { BiAddToQueue } from "react-icons/bi";
 import {IconButton} from "@mui/material";
 import {ErrorMessage} from "formik";
+import {verificaRota} from "../auth";
 
 
 class CreatePerguntaComponent extends Component {
@@ -23,6 +24,7 @@ class CreatePerguntaComponent extends Component {
     }
 
     componentDidMount(){
+        verificaRota();
         CienciaAbertaService.listCategoria().then((res) => {
             this.setState({ categorias: res.data});
         });
@@ -55,7 +57,7 @@ class CreatePerguntaComponent extends Component {
         }else{
             this.setState({mostraBotaoAlternativas: true});
         }
-     }
+    }
 
     handleChangeCategoriaPergunta = (event) => {
         this.setState ({categoria: this.state.categorias.find(c => c.id == event.target.value)});
@@ -104,93 +106,93 @@ class CreatePerguntaComponent extends Component {
         return (
             <div>
                 <br></br>
-                   <div className = "container">
-                        <div className = "row">
-                            <div className = "card col-md-10 offset-md-1 offset-md-1"> <h3 className="text-center">Adicionar Pergunta</h3>
-                                <p style={{fontSize: "medium", color:"red"}}>{this.state.error}</p>
-                                <div className = "card-body">
-                                    <form>
-                                        <div className = "form-group">
-                                            <label> Descrição pergunta: </label>
-                                            <textarea
-                                                className="form-control"
-                                                placeholder="Descrição pergunta"
-                                                id="perguntaDescricao"
-                                                name="perguntaDescricao"
-                                                onChange={this.handleChangePerguntaDescricao}
-                                                value ={this.state.perguntaDescricao}
-                                            />
-                                        </div>
+                <div className = "container">
+                    <div className = "row">
+                        <div className = "card col-md-10 offset-md-1 offset-md-1"> <h3 className="text-center">Adicionar Pergunta</h3>
+                            <p style={{fontSize: "medium", color:"red"}}>{this.state.error}</p>
+                            <div className = "card-body">
+                                <form>
+                                    <div className = "form-group">
+                                        <label> Descrição pergunta: </label>
+                                        <textarea
+                                            className="form-control"
+                                            placeholder="Descrição pergunta"
+                                            id="perguntaDescricao"
+                                            name="perguntaDescricao"
+                                            onChange={this.handleChangePerguntaDescricao}
+                                            value ={this.state.perguntaDescricao}
+                                        />
+                                    </div>
 
-                                        <br></br>
-                                        <div className = "form-group" >
-                                            <label> Categoria Pergunta: </label>
-                                            <select className="form-select" onChange={this.handleChangeCategoriaPergunta}  >
+                                    <br></br>
+                                    <div className = "form-group" >
+                                        <label> Categoria Pergunta: </label>
+                                        <select className="form-select" onChange={this.handleChangeCategoriaPergunta}  >
 
-                                                <option value="" >Selecione a categoria da pergunta</option>
-                                                {
-                                                    this.state.categorias.map( categoria =>
-                                                            <option key={categoria.id} value={categoria.id} > {categoria.descricaoCategoriaPergunta} </option>
-                                                    )
-                                                }
-                                            </select>
-                                        </div>
+                                            <option value="" >Selecione a categoria da pergunta</option>
+                                            {
+                                                this.state.categorias.map( categoria =>
+                                                    <option key={categoria.id} value={categoria.id} > {categoria.descricaoCategoriaPergunta} </option>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
 
 
-                                        <br></br>
-                                        <div className = "form-group" >
-                                            <label> Tipo de pergunta: </label>
-                                            <select className="form-select"  onChange={this.handleChangeTipoPergunta}  >
-                                                <option value = "" >Selecione o tipo da pergunta</option>
-                                                <option value = "TRUE_FALSE"  >Verdadeiro ou Falso</option>
-                                                <option value = "ALTERNATIVE" >Alternativa (seleção de apenas 1 resposta)</option>
-                                                <option value = "ABERTA" >Aberta</option>
-                                                <option value = "SELECAO" >Seleção (seleção de 1 ou mais alternativas)</option>
-                                            </select>
-                                        </div>
-                                        <br></br>
+                                    <br></br>
+                                    <div className = "form-group" >
+                                        <label> Tipo de pergunta: </label>
+                                        <select className="form-select"  onChange={this.handleChangeTipoPergunta}  >
+                                            <option value = "" >Selecione o tipo da pergunta</option>
+                                            <option value = "TRUE_FALSE"  >Verdadeiro ou Falso</option>
+                                            <option value = "ALTERNATIVE" >Alternativa (seleção de apenas 1 resposta)</option>
+                                            <option value = "ABERTA" >Aberta</option>
+                                            <option value = "SELECAO" >Seleção (seleção de 1 ou mais alternativas)</option>
+                                        </select>
+                                    </div>
+                                    <br></br>
 
-                                        { this.state.mostraBotaoAlternativas ?
-                                            <>
+                                    { this.state.mostraBotaoAlternativas ?
+                                        <>
                                             <button className="btn btn-info" onClick={this.addAlternativa}> <BiAddToQueue/> Adicionar
                                                 Alternativa</button>
                                             <br></br>  <br></br>
-                                            </>
-                                            : null
-                                        }
-                                        {this.state.alternativas.map((alternativa,index) => (
-                                            <>
-                                                <label > Alternativa {index}</label>
-                                                <div style={{display:"flex"}}>
-                                                    <input
-                                                        placeholder= {"Alternativa " + index}
-                                                        id={index}
-                                                        name={"perguntaAlternativaDescricao" + alternativa}
-                                                        className="form-control"
-                                                        value={alternativa}
-                                                        onChange={(e)=>this.handleChangeAlternativa(e,index)}
-                                                    />
-                                                    <button className="btn btn-dark"
-                                                            style={{marginLeft:4}}
-                                                            onClick={(e)=> this.handleRemoveInputAlternativa(e,index)} >
-                                                        <FaTrashAlt />
+                                        </>
+                                        : null
+                                    }
+                                    {this.state.alternativas.map((alternativa,index) => (
+                                        <>
+                                            <label > Alternativa {index}</label>
+                                            <div style={{display:"flex"}}>
+                                                <input
+                                                    placeholder= {"Alternativa " + index}
+                                                    id={index}
+                                                    name={"perguntaAlternativaDescricao" + alternativa}
+                                                    className="form-control"
+                                                    value={alternativa}
+                                                    onChange={(e)=>this.handleChangeAlternativa(e,index)}
+                                                />
+                                                <button className="btn btn-dark"
+                                                        style={{marginLeft:4}}
+                                                        onClick={(e)=> this.handleRemoveInputAlternativa(e,index)} >
+                                                    <FaTrashAlt />
 
-                                                    </button>
-                                                </div>
-                                            </>
+                                                </button>
+                                            </div>
+                                        </>
 
-                                        ) )}
+                                    ) )}
 
-                                        <br></br>
-<br></br>
-                                        <button className="btn btn-success" onClick={this.savePergunta}> <FaRegSave/> Salvar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}><FaBackspace/> Cancelar</button>
-                                    </form>
-                                </div>
+                                    <br></br>
+                                    <br></br>
+                                    <button className="btn btn-success" onClick={this.savePergunta}> <FaRegSave/> Salvar</button>
+                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}><FaBackspace/> Cancelar</button>
+                                </form>
                             </div>
                         </div>
+                    </div>
 
-                   </div>
+                </div>
             </div>
         )
     }

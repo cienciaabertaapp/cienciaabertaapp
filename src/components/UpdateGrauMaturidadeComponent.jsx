@@ -3,6 +3,7 @@ import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import {verificaRota} from "../auth";
 
 class UpdateGrauMaturidadeComponent extends Component {
 
@@ -15,8 +16,8 @@ class UpdateGrauMaturidadeComponent extends Component {
     }
 
     componentDidMount(){
+        verificaRota();
         CienciaAbertaService.buscaGrauMaturidade(this.state.id).then( (res) =>{
-         //   console.log(this.state.id);
             let grauMaturidade = res.data;
             this.setState({
                     nivelGrauMaturidade: grauMaturidade.nivelGrauMaturidade,
@@ -117,7 +118,7 @@ class UpdateGrauMaturidadeComponent extends Component {
                                         <div className = "form-group" >
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label htmlFor="pontuacaoMinimaGrauMaturidade"> Pontuação Mínima: </label>
+                                                    <label htmlFor="pontuacaoMinimaGrauMaturidade"> Pontuação Mínima (%): </label>
                                                     <Field
                                                         type = "number"
                                                         placeholder="Pontuação Mínima"
@@ -128,7 +129,7 @@ class UpdateGrauMaturidadeComponent extends Component {
                                                     <ErrorMessage name="pontuacaoMinimaGrauMaturidade" render={renderError}/>
                                                 </div>
                                                 <div className="col-6">
-                                                    <label htmlFor="pontuacaoMaximaGrauMaturidade"> Pontuação Máxima: </label>
+                                                    <label htmlFor="pontuacaoMaximaGrauMaturidade"> Pontuação Máxima (%): </label>
                                                     <Field
                                                         type = "number"
                                                         placeholder="Pontuação Máxima"

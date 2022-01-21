@@ -1,10 +1,13 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {BiAddToQueue} from "react-icons/bi";
+import {logout, parseJwt, verificaRota} from "../auth";
+import {removeUsuario} from "../dadosGlobais";
 
 class ViewPerguntaComponent extends Component {
+
 
     constructor(props) {
         super(props)
@@ -15,7 +18,7 @@ class ViewPerguntaComponent extends Component {
     }
 
     componentDidMount() {
-
+        verificaRota();
         CienciaAbertaService.buscaPergunta(this.state.id).then((res) => {
             let pergunta = res.data;
             this.setState({
@@ -47,12 +50,6 @@ class ViewPerguntaComponent extends Component {
         });
     }
 
-
-    editaUsuario (id){
-        // console.log("teste",id);
-        //  console.log('/usuario_edit/'+id);
-        //  this.props.history.push("/usuario_edit/"+id);
-    }
 
     cancel(){
         this.props.history.push('/perguntas_list');

@@ -33,7 +33,6 @@ class AnswerSearchComponent extends Component {
     componentDidMount() {
         CienciaAbertaService.listCategoria().then((res) => {
             this.setState({categorias: res.data});
-            console.log(this.state.categorias);
             this.setState({
                 quantidadeSteps: this.state.categorias.length - 1,
                 categoriaAtual: this.state.categorias[this.state.stepAtual].descricaoCategoriaPergunta
@@ -50,15 +49,11 @@ class AnswerSearchComponent extends Component {
 
     proximoStep = (e, step) => {
         e.preventDefault();
-        //debugger;
-        console.log(this.state.respostas);
-        console.log(this.state.qtdPerguntaCategoria);
 
         if (this.state.respostas.length < this.state.qtdPerguntaCategoria) {
             this.setState({error: "Preencha todos os campos"});
         } else {
             this.setState({error: ""});
-            //  console.log(step);
             this.setState({stepAtual: step})
             this.setState({categoriaAtual: this.state.categorias[step].descricaoCategoriaPergunta});
             CienciaAbertaService.buscaPerguntasCategoria(this.state.categorias[step].id).then((res) => {
@@ -129,7 +124,6 @@ class AnswerSearchComponent extends Component {
                 "resposta": e.target.value
             });
         }
-        // console.log(this.state.respostasAberta);
     }
 // ----------------------------- TRUE-FALSE
     onChangeTrueFalse = (e, idPergunta, idCategoria) => {
@@ -151,7 +145,6 @@ class AnswerSearchComponent extends Component {
                 "resposta": e.target.value
             });
         }
-        //   console.log(this.state.respostasTrueFalse);
     }
 // ----------------------------- SELEÇÃO
     onChangeSelecao = (e, idPergunta, idAlternativa, idCategoria) => {
@@ -159,8 +152,6 @@ class AnswerSearchComponent extends Component {
         let inserirSelecao = true;
         this.state.respostas.map(res => {
             if ((res.idPergunta == idPergunta) && (res.idAlternativa == idAlternativa)) {
-                // console.log(res.estado);
-                // console.log(!res.estado);
                 res.estado = !res.estado;
                 inserirSelecao = false;
                 return res
@@ -190,10 +181,10 @@ class AnswerSearchComponent extends Component {
                 respostasUsuario: this.state.respostas
             };
             CienciaAbertaService.createResposta(respostasUsuario).then(res => {
+                CienciaAbertaService.enviaEmail(this.state.idUsuario);
                 this.props.history.push('/');
             });
         }
-        //  console.log(this.state.respostas);
     }
 
 

@@ -3,6 +3,7 @@ import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import {verificaRota} from "../auth";
 
 class UpdateCategoriaComponent extends Component {
 
@@ -14,7 +15,7 @@ class UpdateCategoriaComponent extends Component {
     }
 
     componentDidMount(){
-
+        verificaRota();
         CienciaAbertaService.buscaCategoria(this.state.id).then( (res) =>{
             let categoria = res.data;
             this.setState({

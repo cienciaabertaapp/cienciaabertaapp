@@ -1,6 +1,11 @@
 import React, { Component, useState } from 'react'
 import CienciaAbertaService from '../services/CienciaAbertaService';
 import { useForm } from "react-hook-form";
+import {Grid, styled} from "@mui/material";
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import {BrowserRouter as Router, Link} from "react-router-dom";
+import {getUsuario} from "../dadosGlobais";
 
 class AnswerSearchComponent extends Component {
 
@@ -13,7 +18,6 @@ class AnswerSearchComponent extends Component {
     componentDidMount(){
         CienciaAbertaService.listRespostas().then((res) => {
             this.setState({ respostas: res.data});
-            console.log(res.data);
         });
     }
     cancel(){
@@ -21,40 +25,57 @@ class AnswerSearchComponent extends Component {
     }
 
     render() {
+        const Item = styled(Paper)(({ theme }) => ({
+            ...theme.typography.body2,
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: theme.palette.text.primary,
+        }));
         return (
             <div>
-                <div className = "row">
-                    <div className = "col-md-10 offset-md-1 offset-md-0">
-                        <br></br>
-                        <h2 className="text-center">FEED</h2>
-                        <table className = "table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th> Instituição</th>
-                                <th> Grau de Maturidade </th>
-                                <th style={{alignItems: "center"}}> Pontos Instituição </th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <div className = "col-md-12 offset-md-0 offset-md-0">
+                    <br></br>
+                    <h2 className="text-center">Instituições Cadastradas</h2>
+                    <br></br>
+
+                    <Grid container spacing={3}>
+                        <Grid item xs={6}>
+                            <Item> <b>INSTITUIÇÃO</b> </Item>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Item> <b>NÍVEL MATURIDADE</b></Item>
+                        </Grid>
+                        <Grid item xs>
+                            <Item><b>PONTUAÇÃO</b></Item>
+                        </Grid>
+                    </Grid>
+                    <br></br><br></br>
+                    <Grid container>
+                        <Grid item xs={12}>
                             { this.state.respostas.map(resp => (
                                 resp.divulgaUsuario ?
                                     <>
-                                        <tr key={resp.id}>
-                                            <td width='50%'>   {resp.instituicaoUsuario} </td>
-                                            <td width='30%'>  {resp.grauMaturidadeUsuario.nivelGrauMaturidade}</td>
-                                            <td width='20%'>  {resp.pontuacaoUsuario}</td>
-                                        </tr>
+                                        <Grid container spacing={3}>
+                                            <Grid item xs={6}>
+                                                <Item>  <Link to={'/pesquisa_usuario/'+resp.idUsuario} style={{ textDecoration: 'none', color:'black' }}> {resp.instituicaoUsuario}</Link></Item>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Item>{resp.grauMaturidadeUsuario.nivelGrauMaturidade}</Item>
+                                            </Grid>
+                                            <Grid item xs>
+                                                <Item> {resp.pontuacaoUsuario}</Item>
+                                            </Grid>
+                                        </Grid>
+
+
+                                        <hr></hr>
                                     </>
                                     : null
                             ))
                             }
-                            </tbody>
-                        </table>
-                    </div>
-
+                        </Grid>
+                    </Grid>
                 </div>
-
-
             </div>
 
 
