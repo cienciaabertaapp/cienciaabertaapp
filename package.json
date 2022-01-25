@@ -2,8 +2,8 @@
   "name": "ciencia-aberta-app",
   "version": "0.1.0",
   "engines": {
-      "node": "10.15.3"
-   },
+    "node": "10.15.3"
+  },
   "private": true,
   "proxy": "http://localhost:8084",
   "dependencies": {
@@ -44,7 +44,8 @@
     "compile:scss": "node-sass src/assets/scss/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.css",
     "minify:scss": "node-sass src/assets/scss/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.min.css --output-style compressed",
     "map:scss": "node-sass src/assets/scss/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.css --source-map true",
-    "build:scss": "npm run compile:scss && npm run minify:scss && npm run map:scss"
+    "build:scss": "npm run compile:scss && npm run minify:scss && npm run map:scss",
+    "dev": "webpack serve"
   },
   "eslintConfig": {
     "extends": [
