@@ -28,11 +28,11 @@ class LoginUsuarioComponent extends Component {
                 const response = await CienciaAbertaService.loginUsuario(conversao);
                 let tipoUsuario = login(response.data.access_token);
                 if (tipoUsuario == "ADMIN"){
-                    window.location.href = "/usuario_list";
+                    window.location.pathname = "/usuario_list";
                 }else{
                     CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
                         usuario(res.data.id);
-                        window.location.href = "/usuario_edit/"+ res.data.id;
+                        window.location.pathname = "/usuario_edit/"+ res.data.id;
                     });
                 }
             } catch (err) {
