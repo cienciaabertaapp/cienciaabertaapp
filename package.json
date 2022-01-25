@@ -24,9 +24,7 @@
     "path": "^0.12.7",
     "primeicons": "^5.0.0",
     "primereact": "^7.1.0",
-    "react": "^17.0.2",
     "react-bootstrap": "1.4.3",
-    "react-dom": "^17.0.2",
     "react-hook-form": "^7.18.1",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.0",
@@ -34,6 +32,10 @@
     "react-transition-group": "^4.4.1",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
