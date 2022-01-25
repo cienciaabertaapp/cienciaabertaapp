@@ -17,6 +17,7 @@ import LoginUsuarioComponent from "./LoginUsuarioComponent";
 import {config} from "react-transition-group";
 import api from "../api";
 
+
 class MenuAdminComponent extends Component {
     constructor(props) {
         super(props)
