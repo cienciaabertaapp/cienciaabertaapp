@@ -5,7 +5,7 @@ import * as cors from 'cors'
 import axios from "axios";
 import {Grid} from "@mui/material";
 import {login, TOKEN_KEY} from "../auth";
-import api from "../api";
+import api, {CIENCIAABERTA_API_BASE_URL} from "../api";
 import { Formik, Form, Field, ErrorMessage} from "formik";
 import {ID_USUARIO, usuario} from "../dadosGlobais";
 import {Redirect} from "react-router-dom";
@@ -28,11 +28,11 @@ class LoginUsuarioComponent extends Component {
                 const response = await CienciaAbertaService.loginUsuario(conversao);
                 let tipoUsuario = login(response.data.access_token);
                 if (tipoUsuario == "ADMIN"){
-                    window.location.href = "usuario_list/";
+                    window.location.href = CIENCIAABERTA_API_BASE_URL+"usuario_list/";
                 }else{
                     CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
                         usuario(res.data.id);
-                        window.location.href = "usuario_edit/"+ res.data.id;
+                        window.location.href = CIENCIAABERTA_API_BASE_URL+"usuario_edit/"+ res.data.id;
                     });
                 }
             } catch (err) {
