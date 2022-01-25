@@ -47,11 +47,8 @@
     "build:scss": "npm run compile:scss && npm run minify:scss && npm run map:scss",
     "dev": "webpack serve"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+   "eslintConfig": {
+
   },
   "browserslist": {
     "production": [
