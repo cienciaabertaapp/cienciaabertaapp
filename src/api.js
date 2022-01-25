@@ -7,7 +7,7 @@ import {React} from "react";
 
 // https://fierce-hollows-92158.herokuapp.com/
 
-export const CIENCIAABERTA_API_BASE_URL = "https://cienciaaberta.herokuapp.com/";
+export const CIENCIAABERTA_API_BASE_URL = "https://cienciaacertapp.netlify.app/";
 
 const api = axios.create({
     baseURL: CIENCIAABERTA_API_BASE_URL,
