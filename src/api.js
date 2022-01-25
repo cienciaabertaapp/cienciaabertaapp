@@ -11,7 +11,12 @@ export const CIENCIAABERTA_API_BASE_URL = "https://cienciaaberta.herokuapp.com/"
 
 const api = axios.create({
     baseURL: CIENCIAABERTA_API_BASE_URL,
-    responseType: 'json'
+    responseType: 'json',
+    headers : {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST , PUT ,DELETE , OPTIONS , HEAD , TRACE , CONNECT",
+    }
 });
 
 api.interceptors.request.use(async config => {
