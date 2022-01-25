@@ -36,7 +36,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -45,7 +45,7 @@
     "minify:scss": "node-sass src/assets/scss/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.min.css --output-style compressed",
     "map:scss": "node-sass src/assets/scss/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.css --source-map true",
     "build:scss": "npm run compile:scss && npm run minify:scss && npm run map:scss",
-    "dev": "webpack serve"
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [
