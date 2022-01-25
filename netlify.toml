@@ -1,13 +1,13 @@
 
 [[redirects]]
 from = "/*"
-to = "/"
+to = "/index.html"
 status = 200
-headers = { Access-Control-Allow-Origin = "*", Authorization = "Bearer api-key"}
+headers = { Access-Control-Allow-Origin = "*", Authorization = "Bearer "}
 
 [[headers]]
 # Define which paths this specific [[headers]] block will cover.
 for = "/*"
 [headers.values]
-Access-Control-Allow-Origin= "**"
-Authorization = "Bearer api-key"
+Access-Control-Allow-Origin= "*"
+Authorization = "Bearer "
