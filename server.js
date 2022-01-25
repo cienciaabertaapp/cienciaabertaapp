@@ -4,7 +4,7 @@ const {resolve} = require('path');
 
 const app = express();
 
-app.use('/',
+app.get('*',
     express.static(
         resolve(
             __dirname,
