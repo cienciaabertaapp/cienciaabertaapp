@@ -11,3 +11,6 @@ for = "/*"
 [headers.values]
 Access-Control-Allow-Origin= "*"
 Authorization = "Bearer "
+
+[build]
+command = "CI= npm run build"
