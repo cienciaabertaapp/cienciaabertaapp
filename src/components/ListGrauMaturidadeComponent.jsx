@@ -45,9 +45,9 @@ class ListGrauMaturidadeComponent extends Component {
         return (
             <div>
                 <br></br>
-                <h2 className="text-center">Listagem Grau Maturidade</h2>
+                <h2 className="text-center">Listagem Grau Aderência</h2>
                 <div className = "col-md-12">
-                    <button className="btn btn-primary" onClick={this.addGrauMaturidade}> Adicionar Grau Maturidade</button>
+                    <button className="btn btn-primary" onClick={this.addGrauMaturidade}> Adicionar Grau Aderência</button>
                 </div>
                 <br></br>
                 <div className = "row">

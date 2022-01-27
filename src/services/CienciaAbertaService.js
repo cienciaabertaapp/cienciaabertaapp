@@ -112,6 +112,7 @@ class CienciaAbertaService {
     updateGlossario(id,glossario){
         return api.put('glossario_update/'+ id,glossario);
     }
+
     listGlossario() {
         return api.get('glossario_list');
     }

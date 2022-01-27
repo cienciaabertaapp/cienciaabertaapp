@@ -131,16 +131,16 @@ class MenuAdminComponent extends Component {
 
                     <hr></hr>
                     <a onClick={this.handlemostraGrauMaturidade}>
-                        <div style={{marginLeft: "10px"}}> <BsFillAwardFill/> Grau Maturidade
+                        <div style={{marginLeft: "10px"}}> <BsFillAwardFill/> Grau Aderência
                             <label style={{marginLeft: "19%"}}>
                                 { this.state.mostraGrauMaturidade ? <BsCaretUp/>:  <BsCaretDown/>}
                             </label></div></a>
                     { this.state.mostraGrauMaturidade ?
                         <>
                             <br></br>
-                            <Link to='/grau_maturidade/' style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Cadastrar Grau Maturidade  </div></Link>
+                            <Link to='/grau_maturidade/' style={{ textDecoration: 'none', color:'black' }}> <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Cadastrar Grau Aderência  </div></Link>
                             <br></br>
-                            <Link to='/grau_maturidade_list/' style={{ textDecoration: 'none', color:'black' }}>   <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Visualizar Grau Maturidade  </div></Link>
+                            <Link to='/grau_maturidade_list/' style={{ textDecoration: 'none', color:'black' }}>   <div style={{marginLeft: "30px", fontSize:"smaller"}}>  <BsFillCaretRightFill /> Visualizar Grau Aderência  </div></Link>
                         </>
                         :null
                     }

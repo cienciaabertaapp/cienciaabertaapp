@@ -85,7 +85,7 @@ class UpdateGrauMaturidadeComponent extends Component {
                 <br></br>
                 <div className = "container">
                     <div className = "row">
-                        <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Grau Maturidade</h3>
+                        <div className = "card col-md-6 offset-md-3 offset-md-3"> <h3 className="text-center">Alterar Grau Aderência</h3>
                             <div className = "card-body">
                                 <Formik  enableReinitialize initialValues={initialValues} onSubmit={this.saveGrauMaturidade} validationSchema={validations}>
                                     <Form className="form">

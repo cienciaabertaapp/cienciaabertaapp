@@ -30,8 +30,9 @@ class UpdateUsuarioComponent extends Component {
 
 
     saveUsuario = (values) => {
+       // debugger;
         CienciaAbertaService.updateUsuario(this.state.id,values).then(res =>{
-            console.log("chegou aqui");
+         //   console.log("chegou aqui");
            // CienciaAbertaService.updateDivulgaResposta(this.state.id, values.permissaoDivulgacaoDadosUsuario);
 
             if (parseJwt() == "ADMIN")
