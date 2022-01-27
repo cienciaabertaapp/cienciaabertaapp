@@ -14,21 +14,34 @@ class ViewPesquisaUsuarioComponent extends Component {
             id: this.props.match.params.id,
             perguntas: [],
             pesquisa: [],
-            nivelMaturidade:""
+            nivelMaturidade:"",
+            nomeUsuario:""
         }
 
     }
 
     componentDidMount() {
         CienciaAbertaService.buscaPesquisa(this.state.id).then((pes) => {
-            this.setState({pesquisa: pes.data,
-            nivelMaturidade:pes.data.grauMaturidadeUsuario.nivelGrauMaturidade
+            console.log(pes.data);
+            if (pes.data == ""){
+                this.props.history.push('/pesquisa/' + this.state.id);
+            }else {
+                this.setState({
+                    pesquisa: pes.data,
+                    nivelMaturidade: pes.data.grauMaturidadeUsuario.nivelGrauMaturidade
+                });
+                CienciaAbertaService.buscaUsuario(pes.data.idUsuario).then((res) => {
+                    let usuario = res.data;
+                    this.setState({
+                        nomeUsuario: usuario.nomeUsuario
+                    });
+                });
+            }
 
+            CienciaAbertaService.listPerguntas().then((res) => {
+                this.setState({perguntas: res.data});
             });
 
-        });
-        CienciaAbertaService.listPerguntas().then((res) => {
-            this.setState({perguntas: res.data});
         });
     }
 
@@ -45,8 +58,9 @@ class ViewPesquisaUsuarioComponent extends Component {
                         <br></br>
                         <div className = "card col-md-12 offset-md-0 offset-md-0"> <h3 className="text-center">Pesquisa {this.state.pesquisa.instituicaoUsuario}</h3>
 
-                           <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
-                            <b>  Nível Maturidade Instituição:</b> {this.state.nivelMaturidade}
+                            <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
+                            <b>  Nível Aderência Instituição:</b> {this.state.nivelMaturidade}<br></br>
+                            <b>  Dados fornecidos por:</b> {this.state.nomeUsuario}
                             <div className = "card-body">
                                 <table className = "table table-striped table-bordered">
                                     <thead>
@@ -93,10 +107,11 @@ class ViewPesquisaUsuarioComponent extends Component {
                                         )
                                     }
 
-<br></br>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
                                     </tbody>
                                 </table>
+
+                                <br></br>
+                                <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
                             </div>
                         </div>
                     </div>

@@ -38,8 +38,6 @@ class CreateCategoriaComponent extends Component {
                 .required('Nome categoria é obrigatório!'),
             pontosPossiveisCategoriaPergunta: yup
                 .number()
-                .positive('Número deve ser positivo')
-                .integer("Inteiro")
                 .required('Campo obrigatório!'),
         });
 

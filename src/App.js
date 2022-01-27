@@ -45,6 +45,7 @@ import ListReferenciasComponent from "./components/ListReferenciasComponent";
 import ListReferenciasInicialComponent from "./components/ListReferenciasInicialComponent";
 import ListGlossarioInicialComponent from "./components/ListGlossarioInicialComponent";
 import ListApresentacaoInicialComponent from "./components/ListApresentacaoInicialComponent";
+import ViewGrauMaturidadeComponent from "./components/ViewGrauMaturidadeComponent";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -112,6 +113,7 @@ function App() {
                             <PrivateRoute path = "/referencias" component = {CreateReferenciasComponent}></PrivateRoute>
                             <PrivateRoute path = "/referencias_edit/:id" component = {UpdateReferenciasComponent}></PrivateRoute>
                             <PrivateRoute path = "/referencias_list" component = {ListReferenciasComponent}></PrivateRoute>
+                            <Route path = "/grauMaturidade_view/:id" component = {ViewGrauMaturidadeComponent}></Route>
 
 
 

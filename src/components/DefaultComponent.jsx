@@ -43,7 +43,7 @@ class AnswerSearchComponent extends Component {
                             <Item> <b>INSTITUIÇÃO</b> </Item>
                         </Grid>
                         <Grid item xs={3}>
-                            <Item> <b>NÍVEL MATURIDADE</b></Item>
+                            <Item> <b>NÍVEL ADERÊNCIA</b></Item>
                         </Grid>
                         <Grid item xs>
                             <Item><b>PONTUAÇÃO</b></Item>
@@ -60,7 +60,7 @@ class AnswerSearchComponent extends Component {
                                                 <Item>  <Link to={'/pesquisa_usuario/'+resp.idUsuario} style={{ textDecoration: 'none', color:'black' }}> {resp.instituicaoUsuario}</Link></Item>
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <Item>{resp.grauMaturidadeUsuario.nivelGrauMaturidade}</Item>
+                                                <Item> <Link to={'/grauMaturidade_view/'+resp.idUsuario} style={{ textDecoration: 'none', color:'black' }}> {resp.grauMaturidadeUsuario.nivelGrauMaturidade}</Link></Item>
                                             </Grid>
                                             <Grid item xs>
                                                 <Item> {resp.pontuacaoUsuario}</Item>

@@ -26,6 +26,14 @@ class ListUserComponent extends Component {
         this.props.history.push('/pergunta_edit/'+id);
     }
 
+    deletePergunta(id){
+        console.log(this.state.categorias);
+
+        CienciaAbertaService.deletePergunta(id).then( res => {
+            this.setState({perguntas: this.state.perguntas.filter(pergunta => pergunta.id !== id)});
+        });
+    }
+
 
     componentDidMount(){
         verificaRota();
@@ -66,10 +74,11 @@ class ListUserComponent extends Component {
                                         <tr key = {pergunta.id}>
                                             <td > { pergunta.descricaoPergunta} </td>
                                             <td > { pergunta.categoria.descricaoCategoriaPergunta} </td>
-                                            <td width='20%'> { pergunta.perguntaTipoPergunta} </td>
-                                            <td width='18%'>
-                                                <button style={{marginLeft: "5x"}} onClick={ () => this.viewPergunta(pergunta.id)} className="btn btn-secondary">Visualizar </button>
-                                                <button style={{marginLeft: "5px"}} onClick={ () => this.editPergunta(pergunta.id)} className="btn btn-info">Atualizar </button>
+                                            <td width='10%'> { pergunta.perguntaTipoPergunta} </td>
+                                            <td width='25%'>
+                                                <button style={{marginLeft: "3x"}} onClick={ () => this.viewPergunta(pergunta.id)} className="btn btn-secondary">Visualizar </button>
+                                                <button style={{marginLeft: "3px"}} onClick={ () => this.editPergunta(pergunta.id)} className="btn btn-info">Atualizar </button>
+                                                <button style={{marginLeft: "3px"}} onClick={ () => this.deletePergunta(pergunta.id)} className="btn btn-danger">Apagar </button>
 
                                             </td>
                                         </tr>

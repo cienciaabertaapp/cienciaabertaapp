@@ -247,9 +247,14 @@ class AnswerSearchComponent extends Component {
                                                      />
                                                 </>
                                                 : perguntas.perguntaTipoPergunta == "ALTERNATIVE" ? //-------------------ALTERNATIVE -----------------------
+
                                                     <>
                                                         <div>
-                                                            {perguntas.respostasPossiveisPergunta.map(alternativas =>
+                                                            {perguntas.respostasPossiveisPergunta
+                                                                .sort((a,b) => {
+                                                                    return b.id - a.id
+                                                                })
+                                                                .map( alternativas =>
                                                                 <>
                                                                     <input
                                                                         type="radio"
