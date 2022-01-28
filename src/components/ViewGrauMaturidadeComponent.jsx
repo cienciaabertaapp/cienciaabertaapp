@@ -72,11 +72,6 @@ class ViewGrauMaturidadeComponent extends Component {
                                             <br></br>
                                         </div>
 
-                                        <div className = "form-group">
-                                            <label htmlFor="porcentagemGrauMaturidade"><b> Porcentagem (%): </b></label><br></br>
-                                            <label> {this.state.porcentagemGrauMaturidade}</label>
-                                            <br></br><br></br>
-                                        </div>
 
                             <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
                         </div>

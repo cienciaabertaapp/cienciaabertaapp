@@ -69,9 +69,8 @@ class ListGrauMaturidadeComponent extends Component {
                                     grauMaturidade =>
                                         <tr key = {grauMaturidade.id}>
                                             <td width='15%'> { grauMaturidade.nivelGrauMaturidade} </td>
-                                            <td width='38%'> { grauMaturidade.descricaoGrauMaturidade}</td>
+                                            <td width='50%'> { grauMaturidade.descricaoGrauMaturidade}</td>
                                             <td width='15%'> { grauMaturidade.pontuacaoMinimaGrauMaturidade}% - {grauMaturidade.pontuacaoMaximaGrauMaturidade}%</td>
-                                            <td width='15%'> { grauMaturidade.porcentagemGrauMaturidade} %</td>
                                             <td>
                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.editGrauMaturidade(grauMaturidade.id)} className="btn btn-info">Atualizar </button>
                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.deleteGrauMaturidade(grauMaturidade.id)} className="btn btn-danger">Apagar </button>

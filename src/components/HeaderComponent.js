@@ -14,7 +14,7 @@ class HeaderComponent extends Component {
             <div>
                 <header>
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark text-light text-center">
-                    <div style={{ fontSize:"xx-large"}}>Ciência Aberta App</div>
+                    <div style={{ fontSize:"xx-large"}}>Ciência Aberta</div>
                     </nav>
                 </header>
             </div>
