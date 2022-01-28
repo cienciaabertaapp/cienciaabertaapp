@@ -60,7 +60,7 @@ class AnswerSearchComponent extends Component {
                                                 <Item>  <Link to={'/pesquisa_usuario/'+resp.idUsuario} style={{ textDecoration: 'none', color:'black' }}> {resp.instituicaoUsuario}</Link></Item>
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <Item> <Link to={'/grauMaturidade_view/'+resp.idUsuario} style={{ textDecoration: 'none', color:'black' }}> {resp.grauMaturidadeUsuario.nivelGrauMaturidade}</Link></Item>
+                                                <Item> <Link to={'/grauMaturidade_view/'+resp.grauMaturidadeUsuario.id} style={{ textDecoration: 'none', color:'black' }}> {resp.grauMaturidadeUsuario.nivelGrauMaturidade}</Link></Item>
                                             </Grid>
                                             <Grid item xs>
                                                 <Item> {resp.pontuacaoUsuario}</Item>
