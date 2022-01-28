@@ -59,7 +59,6 @@ class ListGrauMaturidadeComponent extends Component {
                                 <th> Nível </th>
                                 <th> Descrição </th>
                                 <th> Pontuação </th>
-                                <th> Porcentagem </th>
                                 <th style={{alignItems: "center"}}> Ações </th>
                             </tr>
                             </thead>
