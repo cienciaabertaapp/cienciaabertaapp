@@ -39,6 +39,11 @@ class MenuUserComponent extends Component {
                 <div style={{marginLeft: "10px"}}>
                     <button
                         className="btn btn-dark bg-gradient"
+                        onClick={() => logout()}>  INÍCIO
+                    </button>
+                    <button
+                        style={{marginLeft: "40px"}}
+                        className="btn btn-dark bg-gradient"
                         onClick={() => logout()}>  SAIR
                     </button>
                 </div>

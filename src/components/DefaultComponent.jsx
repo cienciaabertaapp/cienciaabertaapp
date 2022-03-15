@@ -35,7 +35,7 @@ class AnswerSearchComponent extends Component {
             <div>
                 <div className = "col-md-12 offset-md-0 offset-md-0">
                     <br></br>
-                    <h2 className="text-center">Instituições Cadastradas</h2>
+                    <h2 className="text-center">Painel de avaliações</h2>
                     <br></br>
 
                     <Grid container spacing={3}>

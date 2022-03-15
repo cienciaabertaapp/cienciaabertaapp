@@ -56,7 +56,7 @@ class ViewPesquisaUsuarioComponent extends Component {
                 <div className = "container">
                     <div className = "row">
                         <br></br>
-                        <div className = "card col-md-12 offset-md-0 offset-md-0"> <h3 className="text-center">Pesquisa {this.state.pesquisa.instituicaoUsuario}</h3>
+                        <div className = "card col-md-12 offset-md-0 offset-md-0"> <h3 className="text-center">Resultado {this.state.pesquisa.instituicaoUsuario}</h3>
 
                             <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
                             <b>  Nível Aderência Instituição:</b> {this.state.nivelMaturidade}<br></br>

@@ -22,6 +22,7 @@ class ListUserComponent extends Component {
     deleteUsuario(id){
         CienciaAbertaService.deleteUsuario(id).then( res => {
             this.setState({usuarios: this.state.usuarios.filter(usuario => usuario.id !== id)});
+            this.props.history.push("/pesquisa_usuario/"+ usuario.id);
         });
     }
     viewUsuario(id){
@@ -69,11 +70,12 @@ class ListUserComponent extends Component {
                                 this.state.usuarios.map(
                                     usuario =>
                                         <tr key = {usuario.id}>
-                                            <td width='45%'> { usuario.nomeUsuario} </td>
+                                            <td width='40%'> { usuario.nomeUsuario} </td>
                                             <td width='31%'> { usuario.instituicaoUsuario} </td>
                                             <td>
                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.viewUsuario(usuario.id)} className="btn btn-secondary">Visualizar </button>
                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.editUsuario(usuario.id)} className="btn btn-info">Atualizar </button>
+                                                <button style={{marginLeft: "10px"}} onClick={ () => this.deleteUsuario(usuario.id)} className="btn btn-danger">Apagar </button>
 
                                             </td>
                                         </tr>
