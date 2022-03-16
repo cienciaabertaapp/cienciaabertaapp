@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {BiAddToQueue} from "react-icons/bi";
 import {findAllByTitle} from "@testing-library/react";
 import {Form} from "formik";
+import {BsFillPrinterFill} from 'react-icons/bs'
 
 class ViewPesquisaUsuarioComponent extends Component {
 
@@ -49,6 +50,9 @@ class ViewPesquisaUsuarioComponent extends Component {
     cancel(){
         this.props.history.push('/');
     }
+    imprimir(){
+        window.print();
+    }
     render() {
         return (
             <div>
@@ -61,6 +65,8 @@ class ViewPesquisaUsuarioComponent extends Component {
                             <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
                             <b>  Nível Aderência Instituição:</b> {this.state.nivelMaturidade}<br></br>
                             <b>  Dados fornecidos por:</b> {this.state.nomeUsuario}
+
+
                             <div className = "card-body">
                                 <table className = "table table-striped table-bordered">
                                     <thead>
@@ -112,6 +118,7 @@ class ViewPesquisaUsuarioComponent extends Component {
 
                                 <br></br>
                                 <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
+                                <button className="btn btn-info" onClick={this.imprimir.bind(this)} style={{marginLeft: "10px"}}><BsFillPrinterFill/> Imprimir</button>
                             </div>
                         </div>
                     </div>

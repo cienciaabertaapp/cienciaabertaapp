@@ -13,7 +13,8 @@ class FooterComponent extends Component {
 
     render() {
         return (
-            <div>
+            <div >
+                <br></br>
                 <img align="flex-end" src={logo} width="200" height="200" />
                 <footer className = "footer text-end" >
                     <span className="text-dark" >All Rights Reserved 2021 @Hoy</span>

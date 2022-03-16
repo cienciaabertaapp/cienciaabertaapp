@@ -1,5 +1,5 @@
 import React, {Component, useContext} from 'react'
-import {BsFillChatRightTextFill,BsFillFilePersonFill} from 'react-icons/bs'
+import {BsFillChatRightTextFill,BsFillFilePersonFill,BsFillBarChartLineFill} from 'react-icons/bs'
 import { logout} from "../auth";
 import {Link, useParams} from "react-router-dom";
 import CienciaAbertaService from "../services/CienciaAbertaService";
@@ -22,6 +22,7 @@ class MenuUserComponent extends Component {
         return (
 
             <div>
+                <br></br>
                 <div className="text-center" style={{fontSize:"x-large"}}>
                     Usuário
                 </div>
@@ -31,7 +32,7 @@ class MenuUserComponent extends Component {
                     <div style={{marginLeft: "10px"}}> <BsFillFilePersonFill/> Meu Cadastro</div></Link>
                 <hr></hr>
                 <Link to={'/pesquisa_usuario/'+getUsuario()} style={{ textDecoration: 'none', color:'black' }}>
-                    <div style={{marginLeft: "10px"}}> <BsFillChatRightTextFill/>  Minha Pesquisa</div></Link>
+                    <div style={{marginLeft: "10px"}}> <BsFillBarChartLineFill/>  Minha Pesquisa</div></Link>
 
 
                 <br></br><br></br>

@@ -94,6 +94,7 @@ class MenuAdminComponent extends Component {
     render() {
         return (
         <div>
+            <br></br>
                     <div className="text-center" style={{fontSize:"x-large"}}>
                       Administrador
                     </div>

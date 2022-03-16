@@ -155,7 +155,14 @@ class CreateUsuarioComponent extends Component {
 
 
                                         <div className = "form-group">
-                                            <label htmlFor="permissaoDivulgacaoDadosUsuario"> Permissão para divulgação de dados: </label><br></br>
+                                            <br></br>
+                                            <label htmlFor="permissaoDivulgacaoDadosUsuario" style={{textAlign:'justify'}}>
+                                                Os dados coletados por meio deste roteiro de avaliação da aderência à Ciência Aberta serão destinados
+                                                às finalidades propostas por esse aplicativo web. Serão publicadas as respostas atribuídas a cada questão,
+                                                o nível de aderência alcançado pela instituição analisada, a pontuação obtida e quem forneceu os dados.
+                                                Antes de iniciar o preenchimento, é preciso que você registre sua decisão no Termo de Consentimento Livre e Esclarecido (TCLE).
+                                                <br></br>
+                                                Permissão para divulgação de dados:</label><br></br>
                                             <tbody><tr>
                                                 <td width="50%">
                                                     <Field
@@ -180,6 +187,7 @@ class CreateUsuarioComponent extends Component {
 
                                                 </td>
                                             </tr></tbody>
+
                                             <ErrorMessage name="permissaoDivulgacaoDadosUsuario" render={renderError}/>
                                             <br></br>
                                         </div>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
 
 class HeaderComponent extends Component {
     constructor(props) {
@@ -11,12 +13,14 @@ class HeaderComponent extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <header>
-                    <nav className="navbar navbar-expand-md navbar-dark bg-dark text-light text-center">
-                    <div style={{ fontSize:"xx-large"}}>Ciência Aberta</div>
+                    <br></br>
+                    <nav  className="navbar navbar-expand-md navbar-dark bg-dark text-light text-center fixed-top">
+                    <div style={{ fontSize:"xx-large"}}><Link to='/' style={{ textDecoration: 'none', color:'white' }}> Ciência Aberta</Link> </div>
                     </nav>
                 </header>
+                <br></br>
             </div>
         )
     }
