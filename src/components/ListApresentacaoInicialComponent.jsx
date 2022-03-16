@@ -49,7 +49,7 @@ class ListApresentacaoComponent extends Component {
                                     apresentacao =>
                                         <tr key = {apresentacao.id}>
 
-                                            <td width='50%'> { apresentacao.descricaoApresentacao} </td>
+                                            <td width='50%' style={{textAlign:'justify'}}> { apresentacao.descricaoApresentacao} </td>
                                         </tr>
                                 )
                             }

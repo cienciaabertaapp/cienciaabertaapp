@@ -82,9 +82,9 @@ class ViewPesquisaUsuarioComponent extends Component {
                                             pergunta =>
                                                 <>
                                                     <tr key = {pergunta.id}>
-                                                        <td > { pergunta.descricaoPergunta} </td>
+                                                        <td width='40%'> { pergunta.descricaoPergunta} </td>
                                                         <td > { pergunta.categoria.descricaoCategoriaPergunta}  </td>
-                                                        <td width='20%'>
+                                                        <td width='30%' style={{textAlign:'justify'}}>
 
                                                             {this.state.pesquisa.respostasUsuario.map(
                                                                 res =>

@@ -45,7 +45,7 @@ class ListReferenciasComponent extends Component {
                                     referencias =>
                                         <tr key = {referencias.id}>
 
-                                            <td width='50%'> { referencias.descricaoReferencias} </td>
+                                            <td width='50%' style={{textAlign:'justify'}}> { referencias.descricaoReferencias} </td>
                                         </tr>
                                 )
                             }

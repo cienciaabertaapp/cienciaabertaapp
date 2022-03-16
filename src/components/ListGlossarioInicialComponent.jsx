@@ -46,7 +46,7 @@ class ListGlossarioComponent extends Component {
                                     glossario =>
                                         <tr key = {glossario.id}>
 
-                                            <td width='50%'> { glossario.descricaoGlossario} </td>
+                                            <td width='50%' style={{textAlign:'justify'}}> { glossario.descricaoGlossario} </td>
                                         </tr>
                                 )
                             }
