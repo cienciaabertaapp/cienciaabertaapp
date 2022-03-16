@@ -20,9 +20,9 @@ class ListUserComponent extends Component {
 
 
     deleteUsuario(id){
+
         CienciaAbertaService.deleteUsuario(id).then( res => {
             this.setState({usuarios: this.state.usuarios.filter(usuario => usuario.id !== id)});
-            this.props.history.push("/pesquisa_usuario/"+ usuario.id);
         });
     }
     viewUsuario(id){

@@ -19,7 +19,7 @@ class CienciaAbertaService {
         return api.get('usuario_list');
     }
     deleteUsuario(id){
-        return api.delete('usuario_delete',id);
+        return api.delete('usuario_delete/'+ id);
     }
     updateUsuario(id,usuario){
         return api.put('usuario_update/'+ id,usuario);
