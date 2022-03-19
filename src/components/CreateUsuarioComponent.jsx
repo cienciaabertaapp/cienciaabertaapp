@@ -12,17 +12,26 @@ class CreateUsuarioComponent extends Component {
     };
 
     saveUsuario = (values) => {
-       // console.log(values);
+        // console.log(values);
         if (!values ) {
             this.setState({ error: "Preencha todos os dados para se cadastrar" });
         } else {
             try {
 
-
-
-                CienciaAbertaService.createUsuario(values).then(res => {
-                    //    console.log(res.data.id);
-                    this.props.history.push('/pesquisa/' + res.data.id);
+                CienciaAbertaService.buscaUsuarioLogin(values.emailUsuario).then( res => {
+                    this.setState({'emailExitente': res.data.emailUsuario});
+console.log(this.state.emailExitente);
+                    if (this.state.emailExitente == null){
+                        CienciaAbertaService.createUsuario(values).then(res => {
+                            //    console.log(res.data.id);
+                            this.props.history.push('/pesquisa/' + res.data.id);
+                        });
+                    }else{
+                        this.setState({
+                            error:
+                                "Usuário Existente."
+                        });
+                    }
                 });
             } catch (err) {
                 this.setState({
@@ -82,7 +91,7 @@ class CreateUsuarioComponent extends Component {
                     <div className = "row">
                         <div className = "card col-md-10 offset-md-1 offset-md-1"> <h3 className="text-center">Adicionar Usuário</h3>
 
-                            {this.state.error && <p>{this.state.error}</p>}
+                            {this.state.error && <p style={{color:"red"}}>{this.state.error}</p>}
                             <div className = "card-body">
                                 <Formik initialValues={initialValues} onSubmit={this.saveUsuario} validationSchema={validations}>
                                     <Form className="form">
