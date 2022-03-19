@@ -6,6 +6,9 @@ import {BiAddToQueue} from "react-icons/bi";
 import {findAllByTitle} from "@testing-library/react";
 import {Form} from "formik";
 import {BsFillPrinterFill} from 'react-icons/bs'
+import parseIsoDate from "yup/es/util/isodate";
+import {date} from "yup";
+import moment from "moment";
 
 class ViewPesquisaUsuarioComponent extends Component {
 
@@ -16,7 +19,8 @@ class ViewPesquisaUsuarioComponent extends Component {
             perguntas: [],
             pesquisa: [],
             nivelMaturidade:"",
-            nomeUsuario:""
+            nomeUsuario:"",
+            dataCadastro:"",
         }
 
     }
@@ -34,7 +38,8 @@ class ViewPesquisaUsuarioComponent extends Component {
                 CienciaAbertaService.buscaUsuario(pes.data.idUsuario).then((res) => {
                     let usuario = res.data;
                     this.setState({
-                        nomeUsuario: usuario.nomeUsuario
+                        nomeUsuario: usuario.nomeUsuario,
+                        dataCadastro: usuario.dataCadastroUsuario
                     });
                 });
             }
@@ -64,8 +69,8 @@ class ViewPesquisaUsuarioComponent extends Component {
 
                             <b> Total de Pontos:</b> {this.state.pesquisa.pontuacaoUsuario} <br></br>
                             <b>  Nível Aderência Instituição:</b> {this.state.nivelMaturidade}<br></br>
-                            <b>  Dados fornecidos por:</b> {this.state.nomeUsuario}
-
+                            <b>  Dados fornecidos por:</b> {this.state.nomeUsuario}<br></br>
+                            <b>  Data: </b>{moment(this.state.dataCadastro).format('DD/MM/YYYY')}
 
                             <div className = "card-body">
                                 <table className = "table table-striped table-bordered">

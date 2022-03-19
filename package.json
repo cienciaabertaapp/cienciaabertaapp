@@ -20,6 +20,7 @@
     "express-favicon": "^2.0.1",
     "formik": "^2.2.9",
     "history": "^5.1.0",
+    "moment": "^2.29.1",
     "normalize.css": "^8.0.1",
     "path": "^0.12.7",
     "primeicons": "^5.0.0",

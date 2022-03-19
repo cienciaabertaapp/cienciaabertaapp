@@ -106,7 +106,7 @@ class LoginUsuarioComponent extends Component {
                                     <br></br>
                                 </div>
 
-                                <button onClick={"submit"} className="btn btn-success" >Entrar</button>
+                                <button onClick={this.submit} className="btn btn-success" >Entrar</button>
                                 <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
                             </Form>
 

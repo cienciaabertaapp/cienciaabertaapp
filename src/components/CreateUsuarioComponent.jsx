@@ -17,6 +17,9 @@ class CreateUsuarioComponent extends Component {
             this.setState({ error: "Preencha todos os dados para se cadastrar" });
         } else {
             try {
+
+
+
                 CienciaAbertaService.createUsuario(values).then(res => {
                     //    console.log(res.data.id);
                     this.props.history.push('/pesquisa/' + res.data.id);
