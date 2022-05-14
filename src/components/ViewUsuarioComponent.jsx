@@ -59,7 +59,7 @@ class ViewUsuarioComponent extends Component {
                                         </div>
 
                                         <div className = "form-group">
-                                            <h5> Instituição </h5>
+                                            <h5> Instituição Avaliada</h5>
                                              <label>{this.state.instituicaoUsuario} </label>
                                             <br></br> <br></br>
                                         </div>

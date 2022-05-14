@@ -123,7 +123,7 @@ console.log(this.state.emailExitente);
                                         </div>
 
                                         <div className="formField">
-                                            <label htmlFor="instituicaoUsuario"> Instituição: </label>
+                                            <label htmlFor="instituicaoUsuario"> Instituição Avaliada: </label>
                                             <Field
                                                 type= "text"
                                                 placeholder="Instituição"
