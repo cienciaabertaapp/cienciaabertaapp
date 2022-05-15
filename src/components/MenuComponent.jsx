@@ -34,7 +34,7 @@ class MenuComponent extends Component {
                     rowSpacing={3}
                 >
                     <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/' style={{ textDecoration: 'none', color:'black' }}> Apresentação </Link></Button> </Grid>
-                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/apresentacao_inicial' style={{ textDecoration: 'none', color:'black' }}> Painel de Visualizações </Link> </Button></Grid>
+                    <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/apresentacao_inicial' style={{ textDecoration: 'none', color:'black' }}> Painel de Avaliações </Link> </Button></Grid>
 
                     <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/usuario' style={{ textDecoration: 'none', color:'black' }}> Cadastrar </Link></Button> </Grid>
                     <Grid item xs={8}>  <Button variant="outlined" fullWidth> <Link to='/user_login' style={{ textDecoration: 'none', color:'black' }}> Login </Link></Button> </Grid>
