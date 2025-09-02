@@ -7,7 +7,7 @@ import {React} from "react";
 //https://cienciaaberta.herokuapp.com/
 // https://fierce-hollows-92158.herokuapp.com/
 
-export const CIENCIAABERTA_API_BASE_URL = "https://cienciaaberta-backend-dff0gd-df1ccb-52-45-158-225.traefik.me/";
+export const CIENCIAABERTA_API_BASE_URL = "https://cienciaaberta.chickenkiller.com/";
 
 const api = axios.create({
     baseURL: CIENCIAABERTA_API_BASE_URL,
